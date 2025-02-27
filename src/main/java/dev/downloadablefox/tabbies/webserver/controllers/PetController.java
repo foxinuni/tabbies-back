@@ -24,7 +24,7 @@ public class PetController {
         return "pets";
     }
 
-    @GetMapping("/pets{id}")
+    @GetMapping("/pets/{id}")
     public String getPetById(@PathVariable Integer id, Model model) {
         Pet pet = petService.getPetById(id);
         model.addAttribute("pet", pet);

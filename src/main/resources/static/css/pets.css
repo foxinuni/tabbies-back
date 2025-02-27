@@ -1,0 +1,122 @@
+/* Page colors */
+/* Pastel colors */
+span {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 75%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+table thead {
+  background-color: #FBACAC;
+}
+table th, table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+table tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+table tr:hover {
+  background-color: #f1f1f1;
+}
+table img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100px;
+  border-radius: 5px;
+}
+table tr:last-child td {
+  border-bottom: none;
+}
+
+form {
+  width: 100%;
+  padding: 5px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form span {
+  margin: 10px 0;
+}
+form label {
+  margin: 10px 0;
+  display: inline-block;
+  width: auto;
+  margin-right: 10px;
+}
+form input, form select {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+form button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #FBACAC;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #8895EA;
+}
+
+.pet-listing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pet-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pet-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 20px;
+  width: 75%;
+  margin: 20px 0;
+}
+.pet-info aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pet-info img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/*# sourceMappingURL=pets.css.map */

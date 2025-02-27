@@ -16,30 +16,36 @@
 <body>
     <header class="header">
         <a href="#home" class="logo"><h1>Tabbies</h1></a>
-        <nav>
-            <ul>
-                <li><a href="#about">Sobre Nosotros</a></li>
-                <li><a href="#services">Servicios</a></li>
-                <li><a href="#testimonies">Testimonios</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-        </nav>
     </header>
     <main>
-        <h1>Pet List</h1>
-        <ul>
-            <!-- Iterate over the list of pets -->
-            <li th:each="pet : ${pets}">
-                <div>
-                    <h2 th:text="${pet.name}">Pet Name</h2>
-                    <p><strong>ID:</strong> <span th:text="${pet.id}">ID</span></p>
-                    <p><strong>Breed:</strong> <span th:text="${pet.breed}">Breed</span></p>
-                    <p><strong>Weight:</strong> <span th:text="${pet.weight}">Weight</span> kg</p>
-                    <p><strong>Birth Date:</strong> <span th:text="${pet.birthDate}">Birth Date</span></p>
-                    <img th:if="${pet.picture}" th:src="${pet.picture}" alt="Pet Picture" style="max-width: 200px;">
-                </div>
-            </li>
-        </ul>
+        <section class="pet-listing">
+            <h1>Pet List</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Breed</th>
+                        <th>Weight (kg)</th>
+                        <th>Birth Date</th>
+                        <th>Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterate over the list of pets -->
+                    <tr th:each="pet : ${pets}">
+                        <td th:text="${pet.name}">Pet Name</td>
+                        <td th:text="${pet.id}">ID</td>
+                        <td th:text="${pet.breed}">Breed</td>
+                        <td th:text="${pet.weight}">Weight</td>
+                        <td th:text="${pet.birthDate}">Birth Date</td>
+                        <td>
+                        <img th:if="${pet.picture}" th:src="${pet.picture}" alt="Pet Picture" style="max-width: 100px;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 </body>
 </html>
