@@ -27,22 +27,14 @@
                 </section>
 
                 <form th:action="@{/pets/{id}(id=*{id})}" method="patch">
-                    <span>
-                        <label for="id">ID:</label>
-                        <input type="text" id="id" name="id" th:value="*{id}" readonly>
-                    </span>
-                    <span>
-                        <label for="breed">Breed:</label>
-                        <input type="text" id="breed" name="breed" th:value="*{breed}">
-                    </span>
-                    <span>
-                        <label for="weight">Weight (kg):</label>
-                        <input type="number" id="weight" name="weight" th:value="*{weight}">
-                    </span>
-                    <span>
-                        <label for="birthDate">Birth Date:</label>
-                        <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
-                    </span>
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" th:value="*{id}" readonly>
+                    <label for="breed">Breed:</label>
+                    <input type="text" id="breed" name="breed" th:value="*{breed}">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" th:value="*{weight}">
+                    <label for="birthDate">Birth Date:</label>
+                    <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
                     <span>
                         <a href="/pets" class="btn btn-secondary">Back</a>
                         <a class="btn btn-primary">Update</a>
