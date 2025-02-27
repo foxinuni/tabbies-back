@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbies - Pet Listing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/pets.css">
+</head>
+<body>
+    <header class="header">
+        <a href="#home" class="logo"><h1>Tabbies</h1></a>
+        <nav>
+            <ul>
+                <li><a href="#about">Sobre Nosotros</a></li>
+                <li><a href="#services">Servicios</a></li>
+                <li><a href="#testimonies">Testimonios</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Pet List</h1>
+        <ul>
+            <!-- Iterate over the list of pets -->
+            <li th:each="pet : ${pets}">
+                <div>
+                    <h2 th:text="${pet.name}">Pet Name</h2>
+                    <p><strong>ID:</strong> <span th:text="${pet.id}">ID</span></p>
+                    <p><strong>Breed:</strong> <span th:text="${pet.breed}">Breed</span></p>
+                    <p><strong>Weight:</strong> <span th:text="${pet.weight}">Weight</span> kg</p>
+                    <p><strong>Birth Date:</strong> <span th:text="${pet.birthDate}">Birth Date</span></p>
+                    <img th:if="${pet.picture}" th:src="${pet.picture}" alt="Pet Picture" style="max-width: 200px;">
+                </div>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>
