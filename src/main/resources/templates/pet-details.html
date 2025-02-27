@@ -22,13 +22,11 @@
             <h1 th:text="*{name}">Pet Name</h1>
 
             <div class="pet-info">
-                <aside>
-                    <div th:if="*{picture}">
+                <section class="aside">
                         <img th:src="*{picture}" alt="Pet Picture">
-                    </div>
-                </aside>
+                </section>
 
-                <form th:action="@{/pet/*{id}}" method="patch">
+                <form th:action="@{/pets/{id}(id=*{id})}" method="patch">
                     <span>
                         <label for="id">ID:</label>
                         <input type="text" id="id" name="id" th:value="*{id}" readonly>
@@ -46,8 +44,8 @@
                         <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
                     </span>
                     <span>
-                        <a href="/" class="btn btn-secondary">Back</a>
-                        <a type="submit" class="btn btn-primary">Update</a>
+                        <a href="/pets" class="btn btn-secondary">Back</a>
+                        <a class="btn btn-primary">Update</a>
                     </span>
                 </form>
             </div>

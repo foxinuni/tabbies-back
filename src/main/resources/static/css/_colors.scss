@@ -30,3 +30,7 @@ $pastel-rose: #ffb6c1;
 $pastel-aqua: #7fffd4;
 $pastel-lemon: #fff44f;
 $pastel-grey: #cfcfc4;
+
+@function hue($color, $degrees) {
+    @return adjust-hue($color, $degrees);
+}

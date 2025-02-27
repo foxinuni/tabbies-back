@@ -15,7 +15,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="#home" class="logo"><h1>Tabbies</h1></a>
+        <a href="/" class="logo"><h1>Tabbies</h1></a>
     </header>
     <main>
         <section class="pet-listing">
@@ -24,23 +24,22 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>ID</th>
                         <th>Breed</th>
                         <th>Weight (kg)</th>
                         <th>Birth Date</th>
-                        <th>Picture</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Iterate over the list of pets -->
                     <tr th:each="pet : ${pets}">
                         <td th:text="${pet.name}">Pet Name</td>
-                        <td th:text="${pet.id}">ID</td>
                         <td th:text="${pet.breed}">Breed</td>
                         <td th:text="${pet.weight}">Weight</td>
                         <td th:text="${pet.birthDate}">Birth Date</td>
-                        <td>
-                        <img th:if="${pet.picture}" th:src="${pet.picture}" alt="Pet Picture" style="max-width: 100px;">
+                        <td class="center">
+                            <a th:href="@{/pets/{id}(id=${pet.id})}" class="btn btn-primary">View</a>
+                            <a th:href="@{/pets/{id}/edit(id=${pet.id})}" class="btn btn-secondary">Delete</a>
                         </td>
                     </tr>
                 </tbody>

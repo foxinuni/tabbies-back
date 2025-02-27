@@ -18,31 +18,29 @@ table {
   border-radius: 10px;
   overflow: hidden;
 }
-table thead {
-  background-color: #FBACAC;
-}
 table th, table td {
   padding: 12px 15px;
-  border-bottom: 1px solid #ddd;
 }
 table th {
-  background-color: #f4f4f4;
+  background-color: #FBACAC;
+  color: #fdfdfd;
   font-weight: bold;
 }
 table tr:nth-of-type(even) {
-  background-color: #f9f9f9;
+  background-color: rgb(251, 185.1666666667, 172);
+  color: #fdfdfd;
 }
 table tr:hover {
-  background-color: #f1f1f1;
+  background-color: rgb(240.25, 240.25, 240.25);
 }
-table img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100px;
-  border-radius: 5px;
+table tr:hover:nth-of-type(even) {
+  background-color: rgb(248.6551724138, 144.2298850575, 123.3448275862);
 }
 table tr:last-child td {
   border-bottom: none;
+}
+table th, table td {
+  text-align: center;
 }
 
 form {
@@ -99,24 +97,31 @@ form button:hover {
 }
 
 .pet-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: row;
   width: 75%;
   margin: 20px 0;
+  background-color: red;
+  height: 400px;
+  border-radius: 15px;
 }
-.pet-info aside {
+.pet-info .aside {
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin: 10px;
 }
 .pet-info img {
   object-fit: cover;
   object-position: center;
   width: 100%;
   border-radius: 10px;
+  height: 350px;
+  border-radius: 10px;
+}
+.pet-info form {
+  width: 50%;
 }
 
 /*# sourceMappingURL=pets.css.map */
