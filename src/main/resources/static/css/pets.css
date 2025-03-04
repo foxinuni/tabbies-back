@@ -6,6 +6,21 @@ span {
   justify-content: center;
 }
 
+
+body{
+  background-image: url("../assets/bgTest2.png"), url("../assets/bgTest.png");
+  background-position: top left, bottom;
+  background-repeat: no-repeat;
+  background-size: auto, cover;
+  background-color: white;
+}
+
+
+main{
+  background-image:  url("../assets/bgTest3.png");
+  background-position: center right;
+  background-repeat: no-repeat;
+}
 table {
   width: 75%;
   border-collapse: separate;
@@ -29,6 +44,9 @@ table th {
 table tr:nth-of-type(even) {
   background-color: rgb(251, 191.75, 172);
   color: #fdfdfd;
+}
+table tr:nth-of-type(odd) {
+  background-color: rgb(255, 255, 255);
 }
 table tr:hover {
   background-color: rgb(240.25, 240.25, 240.25);
@@ -131,3 +149,35 @@ form button:hover {
 }
 
 /*# sourceMappingURL=pets.css.map */
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+
+}
+
+.delete-form{
+  padding: 10%;
+  margin: 0%;
+}
+.btn-primary{
+  margin: 0px;
+  max-width: 100px;
+  text-align: center;
+}
+
+.btn-secondary{
+  margin: 0px;
+  max-width: 100px;
+}
+
+.pet-form{
+  padding: 1%;
+  width: 80%;
+  height: 80%;
+  margin-bottom: 150px;
+  background-color: #dddddd6a;
+}

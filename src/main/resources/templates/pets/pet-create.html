@@ -21,7 +21,7 @@
         <section th:object="${pet}" class="pet-details">
             <h1>Create New Pet</h1>
 
-            <form th:action="@{/pets}" method="post">
+            <form th:action="@{/pets}" method="post" class="pet-form">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
             <label for="breed">Breed:</label>
