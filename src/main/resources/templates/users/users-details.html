@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabbies - Pet View</title>
+    <title>Tabbies - User View</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -18,22 +18,27 @@
         <a href="#home" class="logo"><h1>Tabbies</h1></a>
     </header>
     <main>
-        <section th:object="${pet}" class="pet-details">
-            <h1 th:text="*{name}">Pet Name</h1>
+        <section th:object="${user}" class="user-details"></section>
+            <h1 th:text="*{name}">User Name</h1>
 
-            <div class="pet-info">
+            <div class="user-info"></div>
                 <section class="aside">
-                        <img th:src="*{picture}" alt="Pet Picture">
+                    <img th:src="*{picture}" alt="User Picture">
                 </section>
 
-                <div class="pet-details-display">
+                <div class="user-details-display"></div>
                     <p><strong>ID:</strong> <span th:text="*{id}">ID</span></p>
-                    <p><strong>Breed:</strong> <span th:text="*{breed}">Breed</span></p>
-                    <p><strong>Weight (kg):</strong> <span th:text="*{weight}">Weight</span></p>
-                    <p><strong>Birth Date:</strong> <span th:text="*{birthDate}">Birth Date</span></p>
+                    <p><strong>Document:</strong> <span th:text="*{document}">Document</span></p>
+                    <p><strong>Email:</strong> <span th:text="*{email}">Email</span></p>
+                    <p><strong>Number:</strong> <span th:text="*{number}">Number</span></p>
+                    <p><strong>Pets:</strong> 
+                        <ul>
+                            <li th:each="petId : *{pets}" th:text="${petId}">Pet ID</li>
+                        </ul>
+                    </p>
                     <span>
-                        <a href="/pets/" class="btn btn-secondary">Back</a>
-                        <a th:href="@{/pets/{id}/edit(id=*{id})}" class="btn btn-primary">Edit</a>
+                        <a href="/users/" class="btn btn-secondary">Back</a>
+                        <a th:href="@{/users/{id}/edit(id=*{id})}" class="btn btn-primary">Edit</a>
                     </span>
                 </div>
             </div>
