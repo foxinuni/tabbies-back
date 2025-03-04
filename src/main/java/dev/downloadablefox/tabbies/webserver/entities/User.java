@@ -1,30 +1,39 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
-    private Integer id;
+    private Long id;
+    private int document;
     private String name;
-    private String breed;
-    private float weight;
-    private String picture;
-    private Date birthdate;
-    
-    public User(Integer id, String name, String breed, float weight, String picture, Date birthdate) {
+    private String email;
+    private int number;
+    private List<Pet> pets;
+
+    public User(Long id, int document, String name, String email, int number) {
         this.id = id;
+        this.document = document;
         this.name = name;
-        this.breed = breed;
-        this.weight = weight;
-        this.picture = picture;
-        this.birthdate = birthdate;
+        this.email = email;
+        this.number = number;
+        this.pets = new ArrayList<>();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getDocument() {
+        return document;
+    }
+
+    public void setDocument(int document) {
+        this.document = document;
     }
 
     public String getName() {
@@ -35,37 +44,27 @@ public class User {
         this.name = name;
     }
 
-    public String getBreed() {
-        return breed;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBreed(String breed) {
-        this.breed = breed;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public float getWeight() {
-        return weight;
+    public int getNumber() {
+        return number;
     }
 
-    public void setWeight(float weight) {
-        this.weight = weight;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<Pet> getPets() {
+        return pets;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public Date getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }   
 }

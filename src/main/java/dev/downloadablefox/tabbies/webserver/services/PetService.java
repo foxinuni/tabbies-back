@@ -17,7 +17,19 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public Pet getPetById(Integer id) {
+    public Pet getPetById(Long id) {
         return petRepository.findById(id);
+    }
+
+    public void createPet(Pet pet) {
+        petRepository.upsert(pet);
+    }
+
+    public void updatePet(Long id, Pet pet) {
+        petRepository.upsert(pet);
+    }
+
+    public void deletePet(Long id) {
+        petRepository.deleteById(id);
     }
 }

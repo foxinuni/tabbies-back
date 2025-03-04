@@ -11,8 +11,6 @@ public class Prescription {
         this.notes = notes;
     }
 
-  
-
     public Integer getId() {
         return id;
     }

@@ -2,14 +2,14 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 
 public class Pet {
-    private Integer id;
+    private Long id;
     private String name;
     private String breed;
     private float weight;
     private String picture;
     private String birthDate;
 
-    public Pet(Integer id, String name, String breed, String birthDate, float weight, String picture) {
+    public Pet(Long id, String name, String breed, String birthDate, float weight, String picture) {
         this.id = id;
         this.name = name;
         this.breed = breed;
@@ -18,11 +18,11 @@ public class Pet {
         this.picture = picture;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
