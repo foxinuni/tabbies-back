@@ -9,7 +9,7 @@ public class User {
     private String name;
     private String email;
     private int number;
-    private List<Pet> pets;
+    private List<Long> pets;
 
     public User(Long id, int document, String name, String email, int number) {
         this.id = id;
@@ -60,11 +60,11 @@ public class User {
         this.number = number;
     }
 
-    public List<Pet> getPets() {
+    public List<Long> getPets() {
         return pets;
     }
 
-    public void setPets(List<Pet> pets) {
+    public void setPets(List<Long> pets) {
         this.pets = pets;
     }   
 }
