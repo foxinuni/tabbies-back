@@ -8,10 +8,10 @@ public class User {
     private int document;
     private String name;
     private String email;
-    private int number;
+    private Long number;
     private List<Long> pets;
 
-    public User(Long id, int document, String name, String email, int number) {
+    public User(Long id, int document, String name, String email, Long number) {
         this.id = id;
         this.document = document;
         this.name = name;
@@ -52,11 +52,11 @@ public class User {
         this.email = email;
     }
 
-    public int getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

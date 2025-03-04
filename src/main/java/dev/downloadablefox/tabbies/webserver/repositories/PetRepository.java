@@ -8,8 +8,8 @@ import dev.downloadablefox.tabbies.webserver.entities.Pet;
 
 @Repository
 public interface PetRepository {
-    Collection<Pet> findAll();
-    Pet findById(Long id);
-    void upsert(Pet pet);
-    void deleteById(Long id);
+    Collection<Pet> findAllPets();
+    Pet findPetById(Long id);
+    void upsertPet(Pet pet);
+    void deletePetById(Long id);
 }

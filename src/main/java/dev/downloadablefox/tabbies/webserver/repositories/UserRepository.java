@@ -8,8 +8,8 @@ import dev.downloadablefox.tabbies.webserver.entities.User;
 
 @Repository
 public interface UserRepository {
-    Collection<User> findAll();
-    User findById(Long id);
-    void upsert(User user);
-    void deleteById(Long id);
+    Collection<User> findAllUsers();
+    User findUserById(Long id);
+    void upsertUser(User user);
+    void deleteUserById(Long id);
 }

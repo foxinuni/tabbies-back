@@ -14,22 +14,22 @@ public class PetService {
     }
 
     public Collection<Pet> getAllPets(){
-        return petRepository.findAll();
+        return petRepository.findAllPets();
     }
 
     public Pet getPetById(Long id) {
-        return petRepository.findById(id);
+        return petRepository.findPetById(id);
     }
 
     public void createPet(Pet pet) {
-        petRepository.upsert(pet);
+        petRepository.upsertPet(pet);
     }
 
     public void updatePet(Long id, Pet pet) {
-        petRepository.upsert(pet);
+        petRepository.upsertPet(pet);
     }
 
     public void deletePet(Long id) {
-        petRepository.deleteById(id);
+        petRepository.deletePetById(id);
     }
 }

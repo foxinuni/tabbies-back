@@ -16,22 +16,22 @@ public class UserService {
     }
 
     public Collection<User> getAllUsers(){
-        return userRepository.findAll();
+        return userRepository.findAllUsers();
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.findUserById(id);
     }
 
     public void createUser(User user) {
-        userRepository.upsert(user);
+        userRepository.upsertUser(user);
     }
 
     public void updateUser(Long id, User user) {
-        userRepository.upsert(user);
+        userRepository.upsertUser(user);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        userRepository.deleteUserById(id);
     }
 }
