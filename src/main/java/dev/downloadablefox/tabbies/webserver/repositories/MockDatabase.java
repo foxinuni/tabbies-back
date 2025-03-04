@@ -35,6 +35,7 @@ public class MockDatabase implements UserRepository, PetRepository {
         userMap.get(2L).setPets(List.of(5L));
     }
 
+    /* Pets */
     @Override
     public Collection<Pet> findAllPets() {
         return pets.values();
@@ -55,6 +56,7 @@ public class MockDatabase implements UserRepository, PetRepository {
         pets.remove(id);
     }
 
+    /* Users */
     @Override
     public Collection<User> findAllUsers() {
         return userMap.values();

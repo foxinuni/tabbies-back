@@ -1,6 +1,5 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
-
 public class Pet {
     private Long id;
     private String name;

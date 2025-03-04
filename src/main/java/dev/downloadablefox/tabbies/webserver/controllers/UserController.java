@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
