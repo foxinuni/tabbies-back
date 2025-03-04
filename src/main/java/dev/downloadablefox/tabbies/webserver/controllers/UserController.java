@@ -6,11 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.services.UserService;
 
-@Controller("/users")
+@Controller
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -19,47 +21,46 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String listPets(Model model) {
+    public String listUsers(Model model) {
         Collection<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "users/users";
     }
 
     @GetMapping("/new")
-    public String newPet() {
+    public String newUser() {
         return "users/new-user";
     }
 
     @PostMapping("/new")
-    public String createPet(User user) {
+    public String createUser(User user) {
         userService.createUser(user);
-        return "redirect:/pets";
+        return "redirect:/users";
     }
 
     @GetMapping("/{id}")
-    public String getPetById(@PathVariable Long id, Model model) {
+    public String getUserById(@PathVariable Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "users/user-details";
     }
     
-
     @GetMapping("/{id}/edit")
-    public String editPet(@PathVariable Long id, Model model) {
+    public String editUser(@PathVariable Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "users/edit-user";
     }
 
     @PostMapping("/{id}/edit")
-    public String updatePet(@PathVariable Long id, User user) {
+    public String updateUser(@PathVariable Long id, User user) {
         userService.updateUser(id, user);
-        return "redirect:/pets/" + id;
+        return "redirect:/users/" + id;
     }
 
     @PostMapping("/{id}/delete")
-    public String deletePet(@PathVariable Long id) {
+    public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return "redirect:/pets";
+        return "redirect:/users/";
     }
 }
