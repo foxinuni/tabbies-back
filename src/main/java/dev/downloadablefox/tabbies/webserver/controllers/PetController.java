@@ -24,7 +24,7 @@ public class PetController {
     public String listPets(Model model) {
         Collection<Pet> pets = petService.getAllPets();
         model.addAttribute("pets", pets);
-        return "pets";
+        return "pets/pets";
     }
 
     @GetMapping("/new")

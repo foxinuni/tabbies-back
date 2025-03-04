@@ -39,7 +39,9 @@
                         <td th:text="${pet.birthDate}">Birth Date</td>
                         <td class="center">
                             <a th:href="@{/pets/{id}(id=${pet.id})}" class="btn btn-primary">View</a>
-                            <a th:href="@{/pets/{id}/edit(id=${pet.id})}" class="btn btn-secondary">Delete</a>
+                            <form th:action="@{/pets/{id}/delete(id=${pet.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-secondary">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>
