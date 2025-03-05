@@ -10,33 +10,39 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/pets.css">
+    <link rel="stylesheet" href="/css/stylepet.css">
 </head>
+<header class="header">
+    <a href="#home" class="logo"><h1>Tabbies</h1></a>
+</header>
 <body>
-    <header class="header">
-        <a href="#home" class="logo"><h1>Tabbies</h1></a>
-    </header>
     <main>
         <section th:object="${pet}" class="pet-details">
-            <h1 th:text="*{name}">Pet Name</h1>
-
-            <div class="pet-info">
-                <section class="aside">
+            <div class="container">
+                <div class="card">
+                    <div class="top-section">
+                        <h1 th:text="*{name}">Pet Name</h1>
                         <img th:src="*{picture}" alt="Pet Picture">
-                </section>
-
-                <div class="pet-details-display">
-                    <p><strong>ID:</strong> <span th:text="*{id}">ID</span></p>
-                    <p><strong>Breed:</strong> <span th:text="*{breed}">Breed</span></p>
-                    <p><strong>Weight (kg):</strong> <span th:text="*{weight}">Weight</span></p>
-                    <p><strong>Birth Date:</strong> <span th:text="*{birthDate}">Birth Date</span></p>
-                    <span>
-                        <a href="/pets/" class="btn btn-secondary">Back</a>
-                        <a th:href="@{/pets/{id}/edit(id=*{id})}" class="btn btn-primary">Edit</a>
-                    </span>
+                    </div>
+                    <div class="bottom-section">
+                        <div class="pet-info">     
+                                <p><strong>ID:</strong> <span th:text="*{id}">ID</span></p>
+                                <p><strong>Breed:</strong> <span th:text="*{breed}">Breed</span></p>
+                                <p><strong>Weight (kg):</strong> <span th:text="*{weight}">Weight</span></p>
+                                <p><strong>Birth Date:</strong> <span th:text="*{birthDate}">Birth Date</span></p>
+                        </div>
+                        <div class="buttons">
+                                    <button class="treatment-btn"><a href="/pets/">Back</a></button>
+                                    <button class="edit-btn"><a th:href="@{/pets/{id}/edit(id=*{id})}">Edit</a></button>
+                        </div>
+                        
+                    </div>
+                        
                 </div>
             </div>
+            
+
+            
         </section>
     </main>
 </body>
