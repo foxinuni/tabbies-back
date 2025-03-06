@@ -30,13 +30,13 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUser() {
-        return "users/new-user";
+        return "users/user-create";
     }
 
     @PostMapping("/new")
     public String createUser(User user) {
         userService.createUser(user);
-        return "redirect:/users";
+        return "redirect:/users/";
     }
 
     @GetMapping("/{id}")
@@ -50,7 +50,7 @@ public class UserController {
     public String editUser(@PathVariable Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-        return "users/edit-user";
+        return "users/user-edit";
     }
 
     @PostMapping("/{id}/edit")

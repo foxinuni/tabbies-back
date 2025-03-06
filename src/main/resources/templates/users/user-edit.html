@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabbies - User View</title>
+    <title>Tabbies - User Edit</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -18,29 +18,29 @@
         <a href="#home" class="logo"><h1>Tabbies</h1></a>
     </header>
     <main>
-        <section th:object="${user}" class="user-details"></section>
+        <section th:object="${user}" class="pet-details">
             <h1 th:text="*{name}">User Name</h1>
 
-            <div class="user-info"></div>
+            <div class="pet-info">
                 <section class="aside">
-                    <img th:src="*{picture}" alt="User Picture">
+                        <img src="/assets/avatar.jpg" alt="Pet Picture">
                 </section>
 
-                <form th:action="@{/users/{id}(id=*{id})}" method="post"></form>
-                    <label for="id">ID:</label>
-                    <input type="text" id="id" name="id" th:value="*{id}" readonly>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" th:value="*{email}">
-                    <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" th:value="*{phone}">
-                    <label for="birthDate">Birth Date:</label>
-                    <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
+                <form th:action="@{/users/{id}/edit(id=*{id})}" method="post">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" th:value="*{name}">
+
                     <label for="document">Document:</label>
                     <input type="text" id="document" name="document" th:value="*{document}">
-                    <label for="pets">Pets:</label>
-                    <input type="text" id="pets" name="pets" th:value="*{pets}">
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" th:value="*{email}">
+
+                    <label for="email">Phone:</label>
+                    <input type="number" id="number" name="number" th:value="*{number}">
+
                     <span>
-                        <a th:href="@{/pets/{id}(id=*{id})}" class="btn btn-secondary">Cancel</a>
+                        <a th:href="@{/users/{id}(id=*{id})}" class="btn btn-secondary">Cancel</a>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </span>
                 </form>

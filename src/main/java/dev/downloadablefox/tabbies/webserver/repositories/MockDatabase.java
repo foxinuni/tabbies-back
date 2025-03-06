@@ -67,6 +67,10 @@ public class MockDatabase implements UserRepository, PetRepository {
 
     @Override
     public void upsertUser(User user) {
+        if (user.getId() == null) {
+            user.setId((long) userMap.size());
+        }
+
         userMap.put(user.getId(), user);
     }
 
