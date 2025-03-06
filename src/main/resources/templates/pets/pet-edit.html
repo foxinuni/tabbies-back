@@ -26,18 +26,38 @@
                         <img th:src="*{picture}" alt="Pet Picture">
                 </section>
 
-                <form th:action="@{/pets/{id}(id=*{id})}" method="post">
-                    <label for="id">ID:</label>
-                    <input type="text" id="id" name="id" th:value="*{id}" readonly>
-                    <label for="breed">Breed:</label>
-                    <input type="text" id="breed" name="breed" th:value="*{breed}">
-                    <label for="weight">Weight (kg):</label>
-                    <input type="number" id="weight" name="weight" th:value="*{weight}">
-                    <label for="birthDate">Birth Date:</label>
-                    <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
+                <form th:action="@{/pets/{id}/edit(id=*{id})}" method="post">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" th:value="*{name}">
+
+                    <span>
+                        <div class="left">
+                            <label for="breed">Breed:</label>
+                            <input type="text" id="breed" name="breed" th:value="*{breed}">
+                        </div>
+
+                        <div>
+                            <label for="weight">Weight (kg):</label>
+                            <input type="number" id="weight" name="weight" th:value="*{weight}">
+                        </div>
+
+                        <div class="right">
+                            <label for="birthDate">Birth Date:</label>
+                            <input type="date" id="birthDate" name="birthDate" th:value="*{birthDate}">
+                        </div>
+                    </span>
+
+                    <label for="owner">Owner:</label>
+                    <select id="owner" name="ownerId" th:value="*{ownerId}">
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                    </select>
+
+
+                    <label for="picture">Picture URL:</label>
+                    <input type="url" id="picture" name="picture" th:value="*{picture}">
                     <span>
                         <a th:href="@{/pets/{id}(id=*{id})}" class="btn btn-secondary">Cancel</a>
-                        <a class="btn btn-primary">Update</a>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </span>
                 </form>
             </div>

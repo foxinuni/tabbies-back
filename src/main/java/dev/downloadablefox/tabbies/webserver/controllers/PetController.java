@@ -1,6 +1,8 @@
 package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,16 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.services.PetService;
+import dev.downloadablefox.tabbies.webserver.services.UserService;
 
 @Controller
 @RequestMapping("/pets")
 public class PetController {
-    private final PetService petService;
+    @Autowired
+    private PetService petService;
 
-    public PetController(PetService petService) {
-        this.petService = petService;
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String listPets(Model model) {
@@ -28,28 +32,37 @@ public class PetController {
     }
 
     @GetMapping("/new")
-    public String newPet() {
+    public String newPet(Model model) {
+        final Collection<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+
         return "pets/pet-create";
     }
 
     @PostMapping("/new")
     public String createPet(Pet pet) {
         petService.createPet(pet);
-        return "redirect:/pets";
+        return "redirect:/pets/";
     }
 
     @GetMapping("/{id}")
     public String getPetById(@PathVariable Long id, Model model) {
-        Pet pet = petService.getPetById(id);
+        final Pet pet = petService.getPetById(id);
+        final User owner = userService.getUserById(pet.getOwnerId());
+
         model.addAttribute("pet", pet);
+        model.addAttribute("owner", owner);
         return "pets/pet-details";
     }
     
 
     @GetMapping("/{id}/edit")
     public String editPet(@PathVariable Long id, Model model) {
-        Pet pet = petService.getPetById(id);
+        final Pet pet = petService.getPetById(id);
+        final Collection<User> users = userService.getAllUsers();
+
         model.addAttribute("pet", pet);
+        model.addAttribute("users", users);
         return "pets/pet-edit";
     }
 

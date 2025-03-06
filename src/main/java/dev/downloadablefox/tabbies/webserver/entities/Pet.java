@@ -1,20 +1,24 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import java.time.LocalDate;
+
 public class Pet {
     private Long id;
     private String name;
     private String breed;
     private float weight;
     private String picture;
-    private String birthDate;
+    private LocalDate birthDate;
+    private Long ownerId;
 
-    public Pet(Long id, String name, String breed, String birthDate, float weight, String picture) {
+    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, Long ownerId) {
         this.id = id;
         this.name = name;
         this.breed = breed;
         this.birthDate = birthDate;
         this.weight = weight;
         this.picture = picture;
+        this.ownerId = ownerId;
     }
 
     public Long getId() {
@@ -41,11 +45,11 @@ public class Pet {
         this.breed = breed;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -63,6 +67,13 @@ public class Pet {
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }      
+    } 
     
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
 }

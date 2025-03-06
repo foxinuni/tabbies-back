@@ -1,23 +1,20 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
     private Long id;
     private int document;
     private String name;
     private String email;
+    private String hash;
     private Long number;
-    private List<Long> pets;
 
-    public User(Long id, int document, String name, String email, Long number) {
+    public User(Long id, int document, String name, String email, String hash, Long number) {
         this.id = id;
         this.document = document;
         this.name = name;
         this.email = email;
+        this.hash = hash;
         this.number = number;
-        this.pets = new ArrayList<>();
     }
 
     public Long getId() {
@@ -52,19 +49,15 @@ public class User {
         this.email = email;
     }
 
+    public String getHash() {
+        return hash;
+    }
+
     public Long getNumber() {
         return number;
     }
 
     public void setNumber(Long number) {
         this.number = number;
-    }
-
-    public List<Long> getPets() {
-        return pets;
-    }
-
-    public void setPets(List<Long> pets) {
-        this.pets = pets;
-    }   
+    } 
 }

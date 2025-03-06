@@ -18,20 +18,20 @@
         <a href="#home" class="logo"><h1>Tabbies</h1></a>
     </header>
     <main>
-        <section th:object="${user}" class="user-details"></section>
+        <section th:object="${user}" class="user-details">
             <h1 th:text="*{name}">User Name</h1>
 
-            <div class="user-info"></div>
+            <div class="user-info">
                 <section class="aside">
                     <img th:src="*{picture}" alt="User Picture">
                 </section>
 
-                <div class="user-details-display"></div>
+                <div class="user-details-display">
                     <p><strong>ID:</strong> <span th:text="*{id}">ID</span></p>
                     <p><strong>Document:</strong> <span th:text="*{document}">Document</span></p>
                     <p><strong>Email:</strong> <span th:text="*{email}">Email</span></p>
                     <p><strong>Number:</strong> <span th:text="*{number}">Number</span></p>
-                    <p><strong>Pets:</strong> 
+                    <p><strong>Pets:</strong></p>
                         <ul>
                             <li th:each="petId : *{pets}" th:text="${petId}">Pet ID</li>
                         </ul>
