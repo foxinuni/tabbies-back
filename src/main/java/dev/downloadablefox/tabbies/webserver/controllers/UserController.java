@@ -53,6 +53,7 @@ public class UserController {
 
     @PostMapping("/{id}/edit")
     public String updateUser(@PathVariable Long id, User user) {
+        System.out.println(user.toString());
         userService.updateUser(id, user);
         return "redirect:/users/" + id;
     }

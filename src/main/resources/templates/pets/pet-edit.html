@@ -48,10 +48,10 @@
                     </span>
 
                     <label for="owner">Owner:</label>
-                    <select id="owner" name="ownerId" th:value="*{ownerId}">
-                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                    <select id="owner" name="ownerId">
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}" th:if="${user.id == pet.ownerId}" selected></option>
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}" th:unless="${user.id == pet.ownerId}"></option>
                     </select>
-
 
                     <label for="picture">Picture URL:</label>
                     <input type="url" id="picture" name="picture" th:value="*{picture}">

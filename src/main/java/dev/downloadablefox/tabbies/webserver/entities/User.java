@@ -49,6 +49,10 @@ public class User {
         this.email = email;
     }
 
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
     public String getHash() {
         return hash;
     }
@@ -60,4 +64,8 @@ public class User {
     public void setNumber(Long number) {
         this.number = number;
     } 
+
+    public String toString() {
+        return "User [id=" + id + ", document=" + document + ", name=" + name + ", email=" + email + ", hash=" + hash + ", number=" + number + "]";
+    }
 }
