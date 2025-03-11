@@ -2,23 +2,46 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+
+@Entity
 public class Pet {
-    private Long id;
+    
     private String name;
     private String breed;
     private float weight;
     private String picture;
     private LocalDate birthDate;
-    private Long ownerId;
 
-    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, Long ownerId) {
+    @ManyToOne
+    private User owner;
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, User owner) {
         this.id = id;
         this.name = name;
         this.breed = breed;
         this.birthDate = birthDate;
         this.weight = weight;
         this.picture = picture;
-        this.ownerId = ownerId;
+        this.owner = owner;
+    }
+    public Pet(String name, String breed, LocalDate birthDate, float weight, String picture,User owner) {
+        this.name = name;
+        this.breed = breed;
+        this.birthDate = birthDate;
+        this.weight = weight;
+        this.picture = picture;
+        this.owner = owner;
+    }
+    public Pet() {
     }
 
     public Long getId() {
@@ -69,11 +92,11 @@ public class Pet {
         this.picture = picture;
     } 
     
-    public Long getOwnerId() {
-        return ownerId;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

@@ -1,35 +1,47 @@
 package dev.downloadablefox.tabbies.webserver.services;
 
 import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 
 @Service
 public class PetServiceImpl implements PetService {
+
+    @Autowired
     private final PetRepository petRepository;
 
     public PetServiceImpl(PetRepository petRepository) {
         this.petRepository = petRepository;
     }
 
+    @Override
     public Collection<Pet> getAllPets(){
-        return petRepository.findAllPets();
+        return petRepository.findAll();
     }
 
+    @Override
     public Pet getPetById(Long id) {
-        return petRepository.findPetById(id);
+        return petRepository.findById(id).get();
     }
 
+    @Override
     public void createPet(Pet pet) {
-        petRepository.upsertPet(pet);
+        petRepository.save(pet);
     }
 
+    @Override
     public void updatePet(Long id, Pet pet) {
-        petRepository.upsertPet(pet);
+        if (petRepository.existsById(id)) {
+            pet.setId(id);
+            petRepository.save(pet);
+        }
     }
 
+    @Override
     public void deletePet(Long id) {
-        petRepository.deletePetById(id);
+        petRepository.deleteById(id);
     }
 }

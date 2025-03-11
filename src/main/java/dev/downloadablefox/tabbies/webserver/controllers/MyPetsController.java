@@ -38,12 +38,9 @@ public class MyPetsController {
             return "redirect:/auth/login";
         }
 
-        List<Pet> pets = new ArrayList<>();
-        for (final Pet pet : petService.getAllPets()) {
-            if (pet.getOwnerId() == user.get().getId()) {
-                pets.add(pet);
-            }
-        }
+        List<Pet> pets = petService.getAllPets().stream()
+            .filter(pet -> pet.getOwner().getId().equals(user.get().getId()))
+            .toList();
 
         model.addAttribute("pets", pets);
         return "my-pets/my-pets";

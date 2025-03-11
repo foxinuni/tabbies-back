@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.services;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 

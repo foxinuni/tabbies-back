@@ -15,7 +15,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Optional<User> login(String email, String password) {
-        for (User user : userRepository.findAllUsers()) {
+        for (User user : userRepository.findAll()) {
             if (user.getEmail().equals(email) && user.getHash().equals(password)) {
                 return Optional.of(user);
             }
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Optional<User> validate(String token) {
-        for (User user : userRepository.findAllUsers()) {
+        for (User user : userRepository.findAll()) {
             if (user.getEmail().equals(token)) {
                 return Optional.of(user);
             }

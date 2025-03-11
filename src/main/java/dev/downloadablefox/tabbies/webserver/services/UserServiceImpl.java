@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.services;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -16,22 +17,22 @@ public class UserServiceImpl implements UserService {
     }
 
     public Collection<User> getAllUsers(){
-        return userRepository.findAllUsers();
+        return userRepository.findAll();
     }
 
     public User getUserById(Long id) {
-        return userRepository.findUserById(id);
+        return userRepository.findById(id).get();
     }
 
     public void createUser(User user) {
-        userRepository.upsertUser(user);
+        userRepository.save(user);
     }
 
     public void updateUser(Long id, User user) {
-        userRepository.upsertUser(user);
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteUserById(id);
+        userRepository.deleteById(id);
     }
 }

@@ -35,6 +35,7 @@ public class PetController {
     public String newPet(Model model) {
         final Collection<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
+        model.addAttribute("pet", new Pet());
 
         return "pets/pet-create";
     }
@@ -48,7 +49,7 @@ public class PetController {
     @GetMapping("/{id}")
     public String getPetById(@PathVariable Long id, Model model) {
         final Pet pet = petService.getPetById(id);
-        final User owner = userService.getUserById(pet.getOwnerId());
+        final User owner = userService.getUserById(pet.getOwner().getId());
 
         model.addAttribute("pet", pet);
         model.addAttribute("owner", owner);

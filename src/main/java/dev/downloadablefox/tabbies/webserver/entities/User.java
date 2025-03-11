@@ -1,12 +1,30 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Dueños")
 public class User {
-    private Long id;
+    
     private int document;
     private String name;
     private String email;
     private String hash;
     private Long number;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Pet> pets = new ArrayList<>();
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     public User(Long id, int document, String name, String email, String hash, Long number) {
         this.id = id;
@@ -15,6 +33,18 @@ public class User {
         this.email = email;
         this.hash = hash;
         this.number = number;
+    }
+
+    public User(int document, String name, String email, String hash, Long number) {
+        this.document = document;
+        this.name = name;
+        this.email = email;
+        this.hash = hash;
+        this.number = number;
+    }
+
+    public User() {
+
     }
 
     public Long getId() {
@@ -67,5 +97,12 @@ public class User {
 
     public String toString() {
         return "User [id=" + id + ", document=" + document + ", name=" + name + ", email=" + email + ", hash=" + hash + ", number=" + number + "]";
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 }
