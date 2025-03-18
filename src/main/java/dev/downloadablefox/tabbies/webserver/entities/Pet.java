@@ -2,9 +2,11 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 
@@ -16,8 +18,9 @@ public class Pet {
     private float weight;
     private String picture;
     private LocalDate birthDate;
-
+    
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     @Id
