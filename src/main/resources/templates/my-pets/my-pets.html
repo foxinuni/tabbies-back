@@ -30,6 +30,7 @@
                         <th>Peso (kg)</th>
                         <th>Nacimiento</th>
                         <th>Acción</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,8 @@
                         <td th:text="${pet.breed}">breed</td>
                         <td th:text="${pet.weight}">weight</td>
                         <td th:text="${pet.birthDate}">birthDate</td>
+                        <td th:if="${pet.isDisabled}">desactivada</td>
+                        <td th:unless="${pet.isDisabled}">activa</td>
                         <td class="center">
                             <a th:href="@{/my-pets/{id}(id=${pet.id})}" class="btn btn-primary">Detalles</a>
                         </td>

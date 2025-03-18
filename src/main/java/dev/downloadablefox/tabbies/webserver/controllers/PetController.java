@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
@@ -76,6 +78,16 @@ public class PetController {
     @PostMapping("/{id}/delete")
     public String deletePet(@PathVariable Long id) {
         petService.deletePet(id);
+        return "redirect:/pets/";
+    }
+
+    @PostMapping("/{id}/status")
+    public String disablePet(@RequestParam("active") Optional<Boolean> active, @PathVariable Long id) {
+        if (!active.isPresent()) {
+            return "redirect:/pets/";
+        }
+
+        petService.setActive(id, active.get());
         return "redirect:/pets/";
     }
 }

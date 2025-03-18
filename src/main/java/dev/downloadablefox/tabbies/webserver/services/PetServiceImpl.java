@@ -44,4 +44,11 @@ public class PetServiceImpl implements PetService {
     public void deletePet(Long id) {
         petRepository.deleteById(id);
     }
+
+    @Override
+    public void setActive(Long id, boolean active) {
+        Pet pet = petRepository.findById(id).get();
+        pet.setIsDisabled(!active);
+        petRepository.save(pet);
+    }
 }

@@ -39,9 +39,12 @@
                         <td th:text="${pet.weight}">weight</td>
                         <td th:text="${pet.birthDate}">birthDate</td>
                         <td class="center">
-                            <a th:href="@{/pets/{id}(id=${pet.id})}" class="btn btn-primary">Detalles</a>
-                            <form th:action="@{/pets/{id}/delete(id=${pet.id})}" method="post" style="display:inline;" class="delete-form">
-                                <button type="submit" class="btn btn-secondary">Eliminar</button>
+                            <a th:href="@{/pets/{id}(id=${pet.id})}" class="btn btn-primary" th:unless="${pet.isDisabled}">Detalles</a>
+                            <form th:action="@{/pets/{id}/status?active=false(id=${pet.id})}" method="post" style="display:inline;" class="delete-form" th:unless="${pet.isDisabled}">
+                                <button type="submit" class="btn btn-secondary">Desactivar</button>
+                            </form>
+                            <form th:action="@{/pets/{id}/status?active=true(id=${pet.id})}" method="post" style="display:inline;" class="delete-form" th:if="${pet.isDisabled}">
+                                <button type="submit" class="btn btn-secondary">Activar</button>
                             </form>
                         </td>
                     </tr>

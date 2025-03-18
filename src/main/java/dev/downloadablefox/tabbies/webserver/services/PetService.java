@@ -13,4 +13,5 @@ public interface PetService {
     public void createPet(Pet pet);
     public void updatePet(Long id, Pet pet);
     public void deletePet(Long id);
+    public void setActive(Long id, boolean active);
 }

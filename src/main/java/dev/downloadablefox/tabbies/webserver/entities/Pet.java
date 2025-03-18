@@ -2,13 +2,12 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
 
 @Entity
 public class Pet {
@@ -17,16 +16,17 @@ public class Pet {
     private float weight;
     private String picture;
     private LocalDate birthDate;
+    private Boolean isDisabled;
     
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     @Id
     @GeneratedValue
     private Long id;
 
-    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, User owner) {
+    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
         this.id = id;
         this.name = name;
         this.breed = breed;
@@ -34,17 +34,20 @@ public class Pet {
         this.weight = weight;
         this.picture = picture;
         this.owner = owner;
+        this.isDisabled = isDisabled;
     }
-    public Pet(String name, String breed, LocalDate birthDate, float weight, String picture,User owner) {
+
+    public Pet(String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
         this.name = name;
         this.breed = breed;
         this.birthDate = birthDate;
         this.weight = weight;
         this.picture = picture;
         this.owner = owner;
+        this.isDisabled = isDisabled;
     }
-    public Pet() {
-    }
+
+    public Pet() {}
 
     public Long getId() {
         return id;
@@ -100,5 +103,13 @@ public class Pet {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 }

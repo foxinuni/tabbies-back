@@ -607,3 +607,6 @@ SELECT * FROM U&"DUE\00d1OS"MEDICINE BIRTH_DATE PET PET PRESCRIPTION [42000-232]
 2025-03-18 09:19:53.879946-05:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM U&""DUE\\00d1OS""MEDICINE [*]BIRTH_DATE PET PET PRESCRIPTION"; SQL statement:
 SELECT * FROM U&"DUE\00d1OS"MEDICINE BIRTH_DATE PET PET PRESCRIPTION [42000-232]
+2025-03-18 09:44:48.017174-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "PICTURE CHARACTER VARYING(255)": "'data:image/webp;base64,UklGRhgeAABXRUJQVlA4IAweAADwpACdASo4ATgBPpFEnEolo6KtqBMq... (10307)"; SQL statement:
+insert into pet (birth_date,breed,is_disabled,name,owner_id,picture,weight,id) values (?,?,?,?,?,?,?,?) [22001-232]
