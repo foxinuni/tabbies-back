@@ -1,7 +1,15 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Medicine {
+    @Id
+    @GeneratedValue
     private Integer id;
+    
     private String name;
     private Double buyPrice;
     private Double sellPrice;
@@ -15,6 +23,15 @@ public class Medicine {
         this.sellPrice = sellPrice;
         this.stock = stock;
         this.sold = sold;
+    }
+    public Medicine(String name, Double buyPrice, Double sellPrice, Integer stock, Integer sold) {
+        this.name = name;
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+        this.stock = stock;
+        this.sold = sold;
+    }
+    public Medicine() {
     }
 
     public Integer getId() {

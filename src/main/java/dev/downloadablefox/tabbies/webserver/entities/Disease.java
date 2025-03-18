@@ -1,8 +1,16 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Disease {
 
+    @Id
+    @GeneratedValue
     private Integer id;
+
     private String name;
     private String description;
     private String procedure;
@@ -15,6 +23,13 @@ public class Disease {
         this.procedure = procedure;
     }
 
+    public Disease(String name, String description, String procedure) {
+        this.name = name;
+        this.description = description;
+        this.procedure = procedure;
+    }
+    public Disease() {
+    }
 
     public Integer getId() {
         return id;

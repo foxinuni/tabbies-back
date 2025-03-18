@@ -1,7 +1,16 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Prescription {
+
+    @Id
+    @GeneratedValue
     private Integer id;
+
     private Integer quantity;
     private String notes;
 
@@ -9,6 +18,12 @@ public class Prescription {
         this.id = id;
         this.quantity = quantity;
         this.notes = notes;
+    }
+    public Prescription(Integer quantity, String notes) {
+        this.quantity = quantity;
+        this.notes = notes;
+    }
+    public Prescription() {
     }
 
     public Integer getId() {

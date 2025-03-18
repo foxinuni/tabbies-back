@@ -1,6 +1,16 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Veterinary{
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String role;
     private String speciality;
     private String picture;
@@ -18,6 +28,9 @@ public class Veterinary{
         this.name = name;
         this.email = email;
         this.number = number;
+    }
+    public Veterinary(){
+        
     }
 
     public String getRole() {
