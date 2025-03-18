@@ -601,3 +601,9 @@ create global temporary table HTE_pet(birth_date date, rn_ integer not null, wei
 2025-03-10 22:31:25.786754-05:00 jdbc[15]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HTE_DUEÑOS" already exists; SQL statement:
 create global temporary table HTE_dueños(document integer, rn_ integer not null, id bigint, number bigint, email varchar(255), hash varchar(255), name varchar(255), primary key (rn_)) TRANSACTIONAL [42101-232]
+2025-03-18 09:19:50.955883-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM U&""DUE\\00d1OS""MEDICINE [*]BIRTH_DATE PET PET PRESCRIPTION"; SQL statement:
+SELECT * FROM U&"DUE\00d1OS"MEDICINE BIRTH_DATE PET PET PRESCRIPTION [42000-232]
+2025-03-18 09:19:53.879946-05:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM U&""DUE\\00d1OS""MEDICINE [*]BIRTH_DATE PET PET PRESCRIPTION"; SQL statement:
+SELECT * FROM U&"DUE\00d1OS"MEDICINE BIRTH_DATE PET PET PRESCRIPTION [42000-232]

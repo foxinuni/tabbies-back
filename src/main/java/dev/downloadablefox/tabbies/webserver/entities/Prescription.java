@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Prescription {
-
     @Id
     @GeneratedValue
     private Integer id;
