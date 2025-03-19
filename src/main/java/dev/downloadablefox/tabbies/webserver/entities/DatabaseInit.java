@@ -30,11 +30,17 @@ public class DatabaseInit implements ApplicationRunner {
         User emilio = userRepository.save(new User(123456789, "Emilio", "emilio@gmail.com", "emilio", 3206214141L));
         User alfredo = userRepository.save(new User(987654321, "Alfredo", "alfredo@gmail.com", "alfredo", 321623232L));
         User miguel = userRepository.save(new User(345234214, "Miguel", "miguel@hotmail.com", "miguel", 313231321L));
+        String[] nombres = {"Emilio", "Carlos", "Lucía", "Marta", "Andrés", "Sofía", "Javier", "Ana", "Roberto", "Elena",
+                            "Fernando", "Gabriela", "Diego", "Patricia", "Luis", "Camila", "Daniel", "Isabel", "Manuel", "Valeria",
+                            "Ricardo", "Mariana", "Alejandro", "Paula", "Hugo", "Natalia", "Mateo", "Carla", "Samuel", "Victoria",
+                            "Raúl", "Clara", "Adrián", "Beatriz", "Ignacio", "Julia", "Sebastián", "Lorena", "Gonzalo", "Andrea",
+                            "Tomás", "Eva", "Alberto", "Pilar", "Enrique", "Cecilia", "Óscar", "Rocío", "Marcos", "Esther"};
+        
         for (int i = 0; i < 50; i++) {
             int documento = 100000000 + random.nextInt(900000000);
-            String nombre = "User" + i;
-            String email = "user" + i + "@example.com";
-            String hash = "hash" + i;
+            String nombre = nombres[i % nombres.length];
+            String email = nombre.toLowerCase() + "@example.com";
+            String hash = nombres[i % nombres.length].toLowerCase();
             long numero = 3000000000L + random.nextInt(1000000000);
             
             users.add(userRepository.save(new User(documento, nombre, email, hash, numero)));
