@@ -22,20 +22,14 @@ public class Pet {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idDesease")
+    private Disease disease;
+
     @Id
     @GeneratedValue
     private Long id;
 
-    public Pet(Long id, String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
-        this.id = id;
-        this.name = name;
-        this.breed = breed;
-        this.birthDate = birthDate;
-        this.weight = weight;
-        this.picture = picture;
-        this.owner = owner;
-        this.isDisabled = isDisabled;
-    }
 
     public Pet(String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
         this.name = name;
@@ -45,6 +39,18 @@ public class Pet {
         this.picture = picture;
         this.owner = owner;
         this.isDisabled = isDisabled;
+        this.disease = null;
+    }
+
+    public Pet(String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled, Disease disease) {
+        this.name = name;
+        this.breed = breed;
+        this.birthDate = birthDate;
+        this.weight = weight;
+        this.picture = picture;
+        this.owner = owner;
+        this.isDisabled = isDisabled;
+        this.disease = disease;
     }
 
     public Pet() {}
@@ -111,5 +117,12 @@ public class Pet {
 
     public void setIsDisabled(Boolean isDisabled) {
         this.isDisabled = isDisabled;
+    }
+
+    public Disease getDisease() {
+        return disease;
+    }
+    public void setDisease(Disease disease) {
+        this.disease = disease;
     }
 }

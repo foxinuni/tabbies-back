@@ -9,7 +9,7 @@ public class Disease {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer idDisease;
 
     private String name;
     private String description;
@@ -17,7 +17,7 @@ public class Disease {
 
     
     public Disease(Integer id, String name, String description, String procedure) {
-        this.id = id;
+        this.idDisease = id;
         this.name = name;
         this.description = description;
         this.procedure = procedure;
@@ -32,12 +32,12 @@ public class Disease {
     }
 
     public Integer getId() {
-        return id;
+        return idDisease;
     }
 
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idDisease = id;
     }
 
 
