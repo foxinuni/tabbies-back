@@ -16,8 +16,9 @@ public class Disease {
 
     @Column(nullable = false)
     private String description;
-    private String procedure;
 
+    @Column(nullable = false)
+    private String procedure;
     
     public Disease(Integer id, String name, String description, String procedure) {
         this.id = id;

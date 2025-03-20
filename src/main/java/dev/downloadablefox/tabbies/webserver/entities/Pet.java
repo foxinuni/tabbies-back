@@ -14,7 +14,7 @@ public class Pet {
     @Id
     @GeneratedValue
     private Long id;
-    
+
     @Column(nullable = false)
     private String name;
 
@@ -38,7 +38,7 @@ public class Pet {
     private User owner;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name="desease_id")
+    @JoinColumn(name="desease_id", nullable = true)
     private Disease disease;
 
     public Pet(String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
