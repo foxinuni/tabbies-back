@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -8,28 +9,31 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Prescription {
+public class Procedure {
     @Id
     @GeneratedValue
     private Integer id;
 
+    @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = false)
     private String notes;
 
     @OneToOne
-    @JoinColumn(name = "pet_id", unique = true, nullable = false) // pet_id es clave foránea y única
+    @JoinColumn(name = "pet_id", nullable = false) 
     private Pet pet;
 
     @OneToOne
-    @JoinColumn(name = "medicine_id", unique = true, nullable = false) // medicine_id es clave foránea y única
+    @JoinColumn(name = "medicine_id", nullable = true)
     private Medicine medicine;
 
     @ManyToOne
-    @JoinColumn(name = "veterinary_id")
+    @JoinColumn(name = "veterinary_id", nullable = false)
     private Veterinary veterinary;
 
 
-    public Prescription(Integer id, Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
+    public Procedure(Integer id, Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
         this.id = id;
         this.quantity = quantity;
         this.notes = notes;
@@ -37,14 +41,14 @@ public class Prescription {
         this.medicine = medicine;
         this.veterinary = veterinary;
     }
-    public Prescription(Integer quantity, String notes , Pet pet, Medicine medicine, Veterinary veterinary) {
+    public Procedure(Integer quantity, String notes , Pet pet, Medicine medicine, Veterinary veterinary) {
         this.quantity = quantity;
         this.notes = notes;
         this.pet = pet;
         this.medicine = medicine;
         this.veterinary = veterinary;
     }
-    public Prescription() {
+    public Procedure() {
     }
 
     public Integer getId() {

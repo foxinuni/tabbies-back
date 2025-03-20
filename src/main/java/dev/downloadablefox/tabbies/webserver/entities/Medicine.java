@@ -1,5 +1,6 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -10,10 +11,19 @@ public class Medicine {
     @GeneratedValue
     private Integer id;
     
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private Double buyPrice;
+
+    @Column(nullable = false)
     private Double sellPrice;
+    
+    @Column(nullable = false)
     private Integer stock;
+
+    @Column(nullable = false)
     private Integer sold;
 
     public Medicine(Integer id, String name, Double buyPrice, Double sellPrice, Integer stock, Integer sold) {
@@ -24,6 +34,7 @@ public class Medicine {
         this.stock = stock;
         this.sold = sold;
     }
+
     public Medicine(String name, Double buyPrice, Double sellPrice, Integer stock, Integer sold) {
         this.name = name;
         this.buyPrice = buyPrice;
@@ -31,8 +42,8 @@ public class Medicine {
         this.stock = stock;
         this.sold = sold;
     }
-    public Medicine() {
-    }
+
+    public Medicine() {}
 
     public Integer getId() {
         return id;
@@ -81,10 +92,4 @@ public class Medicine {
     public void setSold(Integer sold) {
         this.sold = sold;
     }
-
-    
-
-    
-
-
 }

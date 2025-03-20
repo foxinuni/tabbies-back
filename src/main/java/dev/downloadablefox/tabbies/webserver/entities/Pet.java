@@ -2,6 +2,7 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -10,11 +11,26 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Pet {
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String breed;
+    
+    @Column(nullable = false)
     private float weight;
+
+    @Column(nullable = false)
     private String picture;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Column(nullable = false)
     private Boolean isDisabled;
     
     @ManyToOne
@@ -22,13 +38,8 @@ public class Pet {
     private User owner;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name="idDesease")
+    @JoinColumn(name="desease_id")
     private Disease disease;
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
 
     public Pet(String name, String breed, LocalDate birthDate, float weight, String picture, User owner, Boolean isDisabled) {
         this.name = name;

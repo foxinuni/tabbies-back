@@ -1,5 +1,6 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -13,7 +14,6 @@ import java.util.*;
 @Component
 @Transactional
 public class DatabaseInit implements ApplicationRunner {
-
     Random random = new Random();
 
     @Autowired
@@ -30,7 +30,8 @@ public class DatabaseInit implements ApplicationRunner {
         User emilio = userRepository.save(new User(123456789, "Emilio", "emilio@gmail.com", "emilio", 3206214141L));
         User alfredo = userRepository.save(new User(987654321, "Alfredo", "alfredo@gmail.com", "alfredo", 321623232L));
         User miguel = userRepository.save(new User(345234214, "Miguel", "miguel@hotmail.com", "miguel", 313231321L));
-        String[] nombres = {"Emilio", "Carlos", "Lucía", "Marta", "Andrés", "Sofía", "Javier", "Ana", "Roberto", "Elena",
+
+        String[] nombres = {"Augusto", "Carlos", "Lucía", "Marta", "Andrés", "Sofía", "Javier", "Ana", "Roberto", "Elena",
                             "Fernando", "Gabriela", "Diego", "Patricia", "Luis", "Camila", "Daniel", "Isabel", "Manuel", "Valeria",
                             "Ricardo", "Mariana", "Alejandro", "Paula", "Hugo", "Natalia", "Mateo", "Carla", "Samuel", "Victoria",
                             "Raúl", "Clara", "Adrián", "Beatriz", "Ignacio", "Julia", "Sebastián", "Lorena", "Gonzalo", "Andrea",
@@ -52,8 +53,13 @@ public class DatabaseInit implements ApplicationRunner {
         petRepository.save(new Pet("Whiskers", "Persian", LocalDate.of(2016, 11, 10), 4.0f, "https://www.purina.co.uk/sites/default/files/2020-12/Understanding%20Your%20Cat%27s%20Body%20LanguageTEASER.jpg", alfredo, false));
         petRepository.save(new Pet("Shadow", "Maine Coon", LocalDate.of(2015, 1, 5), 5.0f, "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alfredo, false));
         petRepository.save(new Pet("Simba", "Bengal", LocalDate.of(2020, 7, 22), 4.3f, "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", miguel, false));
+        
+        String[] petNames = {"Bella", "Charlie", "Max", "Luna", "Rocky", "Milo", "Lucy", "Daisy", "Bailey", "Oliver",
+                             "Chloe", "Buddy", "Lola", "Jack", "Sophie", "Zoe", "Toby", "Maggie", "Finn", "Nala",
+                             "Simba", "Coco", "Ginger", "Oscar", "Ruby", "Jasper", "Sadie", "Molly", "Riley", "Sasha",
+                             "Lily", "Cooper", "Lexi", "Ava", "Ben", "Emma", "Finn", "Gracie", "Hunter", "Isabella",
+                             "Leo", "Mia", "Max", "Nora", "Oliver", "Piper", "Remy", "Ruby", "Sage", "Toby", "Willow"};
 
-        String[] petNames = {"Bella", "Charlie", "Max", "Luna", "Rocky", "Milo", "Lucy", "Daisy", "Bailey", "Oliver"};
         String[] petBreeds = {"Esfinge", "Siames", "Tabby", "Persian", "Maine Coon", "Bengal", "Siberian", "Ragdoll", "Sphynx", "British Shorthair"};
         String[] petImages = {
             "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1",
@@ -65,12 +71,13 @@ public class DatabaseInit implements ApplicationRunner {
         };
 
         for (int i = 1; i <= 100; i++) {
-            String name = petNames[random.nextInt(petNames.length)];
-            String breed = petBreeds[random.nextInt(petBreeds.length)];
+            String name = petNames[i % petNames.length];
+            String breed = petBreeds[i % petBreeds.length];
             LocalDate birthDate = LocalDate.of(2015 + random.nextInt(10), 1 + random.nextInt(12), 1 + random.nextInt(28));
-            float weight = 3.0f + random.nextFloat() * 2.0f;
+            float weight = (float) (3.0 + Math.round((random.nextFloat() * 2.0 + NumberFormat.getInstance().getMaximumFractionDigits()) * 10.0) / 10.0);
             String picture = petImages[random.nextInt(petImages.length)];
             User owner = users.get(random.nextInt(users.size()));
+
             petRepository.save(new Pet(name, breed, birthDate, weight, picture, owner, false));
         }
     }

@@ -1,23 +1,26 @@
 package dev.downloadablefox.tabbies.webserver.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
 public class Disease {
-
     @Id
     @GeneratedValue
-    private Integer idDisease;
+    private Integer id;
 
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false)
     private String description;
     private String procedure;
 
     
     public Disease(Integer id, String name, String description, String procedure) {
-        this.idDisease = id;
+        this.id = id;
         this.name = name;
         this.description = description;
         this.procedure = procedure;
@@ -32,12 +35,12 @@ public class Disease {
     }
 
     public Integer getId() {
-        return idDisease;
+        return id;
     }
 
 
     public void setId(Integer id) {
-        this.idDisease = id;
+        this.id = id;
     }
 
 

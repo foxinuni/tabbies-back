@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,19 +14,27 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Users")
 public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
     
+    @Column(nullable = false, unique = true)
     private int document;
+    
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+    
+    @Column(nullable = false)
     private String hash;
+    
+    @Column(nullable = false, unique = true)
     private Long number;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     public User(Long id, int document, String name, String email, String hash, Long number) {
         this.id = id;
