@@ -15,6 +15,12 @@
 <body>
     <header class="header">
         <a href="#home" class="logo"><h1>Tabbies</h1></a>
+        <nav>
+            <ul>
+                <li><a href="/users/">Usuarios</a></li>
+                <li><a href="/pets/">Mascotas</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
         <section th:object="${pet}" class="pet-details">
@@ -26,14 +32,14 @@
                     </div>
                     <div class="bottom-section">
                         <div class="pet-info">
-                            <p><strong>Owner:</strong> <span th:text="${owner.name}">Owner</span></p>
-                            <p><strong>Breed:</strong> <span th:text="*{breed}">Breed</span></p>
-                            <p><strong>Weight (kg):</strong> <span th:text="*{weight}">Weight</span></p>
-                            <p><strong>Birth Date:</strong> <span th:text="*{birthDate}">Birth Date</span></p>
+                            <p><strong>Dueño:</strong> <span th:text="${owner.name}">Owner</span></p>
+                            <p><strong>Raza:</strong> <span th:text="*{breed}">Breed</span></p>
+                            <p><strong>Peso (kg):</strong> <span th:text="*{weight}">Weight</span></p>
+                            <p><strong>Nacimiento:</strong> <span th:text="*{birthDate}">Birth Date</span></p>
                         </div>
                         <div class="buttons">
-                            <a class="btn-general treatment-btn" href="/pets/">Back</a>
-                            <a class="btn-general edit-btn" th:href="@{/pets/{id}/edit(id=*{id})}">Edit</a>
+                            <a class="btn-general treatment-btn" href="/pets/">Volver</a>
+                            <a class="btn-general edit-btn" th:href="@{/pets/{id}/edit(id=*{id})}">Editar</a>
                         </div>
                     </div>
                 </div>
