@@ -9,6 +9,10 @@ Tabbies es un proyecto diseñado para ayudar a organizar y gestionar pestañas d
 - Organización por categorías o proyectos.
 - Interfaz amigable y fácil de usar.
 
+### Entidades
+El siguiente sistema implementa CRUDs para las siguientes entidades:
+![Tabbies Entities](assets/entidades.png)
+
 ## Instalación
 
 1. Clona este repositorio:  
