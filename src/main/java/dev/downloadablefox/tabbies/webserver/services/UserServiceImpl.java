@@ -28,8 +28,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public void updateUser(Long id, User user) {
-        userRepository.save(user);
+        
+            User existingUser = userRepository.findById(id).get();
+            user.setPets(existingUser.getPets()); 
+            userRepository.save(user);
+    
     }
+    
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
