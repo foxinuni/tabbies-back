@@ -58,7 +58,6 @@ public class MyPetsController {
         }
 
         final Pet pet = petService.getPetById(id);
-
         model.addAttribute("pet", pet);
         model.addAttribute("owner", user.get());
         return "my-pets/my-pet-details";

@@ -21,7 +21,7 @@ public class Veterinary{
     private Integer document;
 
     @Column(nullable = false, unique = true)
-    private Integer number;
+    private Long number;
 
     @Column(nullable = false)
     private String role;
@@ -33,7 +33,7 @@ public class Veterinary{
     private String picture;
 
     public Veterinary(String role, String speciality, String picture, Integer document, String name, String email,
-            Integer number) {
+            Long number) {
         this.role = role;
         this.speciality = speciality;
         this.picture = picture;
@@ -93,11 +93,11 @@ public class Veterinary{
         this.email = email;
     }
     
-    public Integer getNumber() {
+    public Long getNumber() {
         return number;
     }
     
-    public void setNumber(Integer number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 }

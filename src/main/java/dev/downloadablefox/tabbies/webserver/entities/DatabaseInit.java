@@ -2,14 +2,19 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
 import jakarta.transaction.Transactional;
-import java.util.*;
 
 @Component
 @Transactional
@@ -21,6 +26,9 @@ public class DatabaseInit implements ApplicationRunner {
 
     @Autowired
     PetRepository petRepository;
+
+    @Autowired
+    VeterinaryRepository veterinaryRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -80,5 +88,38 @@ public class DatabaseInit implements ApplicationRunner {
 
             petRepository.save(new Pet(name, breed, birthDate, weight, picture, owner, false));
         }
+
+
+        String[] veterinaryNames = {
+            "Dr. Juan Pérez", "Dra. María López", "Dr. Carlos Martínez", "Dra. Laura Gómez",
+            "Dr. Andrés Herrera", "Dra. Camila Torres", "Dr. Fernando Ríos", "Dra. Valentina Suárez",
+            "Dr. Sebastián Gómez", "Dra. Carolina Mendoza"
+        };
+        String[] specialties = {"Dermatología", "Cardiología", "Neurología", "Ortopedia"};
+        String[] veterinaryImages = {
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s",
+            "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
+            "https://universidadeuropea.com/resources/media/images/medicina-veterinaria-1200x630.original.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUeEspVdBXUg8ZzynfCSeBtkqL69d-utAnP7VfdkojWQWLmucxfI1SVqQpc7sQAvfwwsY&usqp=CAU",
+            "https://nupec.com/wp-content/uploads/2022/09/vet-appointment-2021-09-24-03-25-35-utc-min.jpg",
+            "https://www.elespectador.com/resizer/v2/I7JAUZSYVVGIBLOW74GBKIQARY.jpg?auth=77942d54ba8710566cfa4aa4830e38150bc562d87031c13b86cce929b8358b95&width=920&height=613&smart=true&quality=60"
+            
+        };
+
+    
+        for (int i = 0; i < 10; i++) {
+            String name = veterinaryNames[i % veterinaryNames.length];
+            String specialty = specialties[i % specialties.length];
+            String picture = veterinaryImages[i % veterinaryImages.length];
+            String role = "Veterinary";
+        
+            Integer document = 200000000 + random.nextInt(800000000);
+            String email = name.toLowerCase().replace(" ", ".") + document + "@Tabbies.com";  // Email único
+            Long number = 310000000L + random.nextInt(90000000);  // Rango adecuado para un número telefónico
+        
+            veterinaryRepository.save(new Veterinary(role, specialty, picture, document, name, email, number));
+        }
+        
+
     }
 }
