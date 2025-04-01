@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
 import jakarta.transaction.Transactional;
@@ -30,10 +31,15 @@ public class DatabaseInit implements ApplicationRunner {
     @Autowired
     VeterinaryRepository veterinaryRepository;
 
+    @Autowired
+    ProcedureRepository procedureRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
         List<User> users = new ArrayList<>();
+        List<Pet> pets = new ArrayList<>();
+        List<Veterinary> veterinarians = new ArrayList<>();
 
         User emilio = userRepository.save(new User(123456789, "Emilio", "emilio@gmail.com", "emilio", 3206214141L));
         User alfredo = userRepository.save(new User(987654321, "Alfredo", "alfredo@gmail.com", "alfredo", 321623232L));
@@ -86,9 +92,8 @@ public class DatabaseInit implements ApplicationRunner {
             String picture = petImages[random.nextInt(petImages.length)];
             User owner = users.get(random.nextInt(users.size()));
 
-            petRepository.save(new Pet(name, breed, birthDate, weight, picture, owner, false));
+            pets.add(petRepository.save(new Pet(name, breed, birthDate, weight, picture, owner, false)));
         }
-
 
         String[] veterinaryNames = {
             "Dr. Juan Pérez", "Dra. María López", "Dr. Carlos Martínez", "Dra. Laura Gómez",
@@ -117,8 +122,25 @@ public class DatabaseInit implements ApplicationRunner {
             String email = name.toLowerCase().replace(" ", ".") + document + "@Tabbies.com";  // Email único
             Long number = 310000000L + random.nextInt(90000000);  // Rango adecuado para un número telefónico
         
-            veterinaryRepository.save(new Veterinary(role, specialty, picture, document, name, email, number));
+           veterinarians.add(veterinaryRepository.save(new Veterinary(role, specialty, picture, document, name, email, number)));
         }
+
+        String[] procedureNotes ={
+            "Consulta general", "Vacunación", "Desparacitación", "Chequeo dental",
+            "Radiografía", "Ultrasonido", "Cirugía menor", "Consulta de emergencia",
+            "Control de peso", "Consulta dermatológica"
+        };
+        
+        for(int i = 0; i < 10; i++) {
+            String note = procedureNotes[i % procedureNotes.length];
+            int quantity = 1 + random.nextInt(3);
+            Pet pet = pets.get(random.nextInt(pets.size()));
+            Veterinary veterinary = veterinarians.get(random.nextInt(veterinarians.size()));
+            Medicine medicine = null; // Asignar un objeto Medicine si es necesario
+
+            procedureRepository.save(new Procedure(quantity, note, pet, medicine, veterinary));
+        };
+
         
 
     }
