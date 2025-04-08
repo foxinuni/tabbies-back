@@ -19,19 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dev.downloadablefox.tabbies.webserver.dtos.PetCreateDTO;
 import dev.downloadablefox.tabbies.webserver.dtos.PetGetDTO;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
-import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.PetService;
-import dev.downloadablefox.tabbies.webserver.services.UserService;
 
 @Controller
 @RequestMapping("/pets")
 public class PetController {
     @Autowired
     private PetService petService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ModelMapper modelMapper;

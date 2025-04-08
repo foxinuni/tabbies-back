@@ -1,7 +1,5 @@
 package dev.downloadablefox.tabbies.webserver.dtos;
 
-import dev.downloadablefox.tabbies.webserver.entities.User;
-
 public class UserGetDTO {
     private Long id;
     private int document;
