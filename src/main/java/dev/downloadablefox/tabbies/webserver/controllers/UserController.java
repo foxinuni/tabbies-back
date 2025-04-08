@@ -3,64 +3,67 @@ package dev.downloadablefox.tabbies.webserver.controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.downloadablefox.tabbies.webserver.dtos.UserCreateDTO;
+import dev.downloadablefox.tabbies.webserver.dtos.UserGetDTO;
 import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.UserService;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/")
-    public String listUsers(Model model) {
-        Collection<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "users/users";
+    @ResponseBody
+    public Collection<UserGetDTO> listUsers(Model model) {
+        return userService.getAllUsers()
+            .stream()
+            .map(modelMapper::toUserDTO)
+            .toList();
     }
 
-    @GetMapping("/new")
-    public String newUser() {
-        return "users/user-create";
-    }
-
-    @PostMapping("/new")
-    public String createUser(User user) {
+    @PostMapping("/")
+    @ResponseBody
+    public UserGetDTO createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        User user = modelMapper.toUserEntity(userCreateDTO);
         userService.createUser(user);
-        return "redirect:/users/";
+        return modelMapper.toUserDTO(user);
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable Long id, Model model) {
+    @ResponseBody
+    public UserGetDTO getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "users/user-details";
+        return modelMapper.toUserDTO(user);
     }
     
-    @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable Long id, Model model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "users/user-edit";
-    }
-
-    @PostMapping("/{id}/edit")
-    public String updateUser(@PathVariable Long id, User user) {
-        System.out.println(user.toString());
+    @PutMapping("/{id}")
+    public UserGetDTO updateUser(@PathVariable Long id, @RequestBody UserCreateDTO userCreateDTO) {
+        User user = modelMapper.toUserEntity(userCreateDTO);
         userService.updateUser(id, user);
-        return "redirect:/users/" + id;
+        return modelMapper.toUserDTO(user);
     }
 
-    @PostMapping("/{id}/delete")
-    public String deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return "redirect:/users/";
+        return ResponseEntity.noContent().build();
     }
 }

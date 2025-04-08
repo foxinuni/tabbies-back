@@ -6,14 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.downloadablefox.tabbies.webserver.dtos.PetCreateDTO;
+import dev.downloadablefox.tabbies.webserver.dtos.PetGetDTO;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.PetService;
 import dev.downloadablefox.tabbies.webserver.services.UserService;
 
@@ -26,68 +33,56 @@ public class PetController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping("/")
-    public String listPets(Model model) {
-        Collection<Pet> pets = petService.getAllPets();
-        model.addAttribute("pets", pets);
-        return "pets/pets";
+    @ResponseBody
+    public Collection<PetGetDTO> listPets(Model model) {
+        return petService.getAllPets()
+            .stream()
+            .map(modelMapper::toPetDTO)
+            .toList();
     }
 
-    @GetMapping("/new")
-    public String newPet(Model model) {
-        final Collection<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("pet", new Pet());
-
-        return "pets/pet-create";
-    }
-
-    @PostMapping("/new")
-    public String createPet(Pet pet) {
+    @PostMapping("/")
+    @ResponseBody
+    public PetGetDTO createPet(@RequestBody PetCreateDTO petCreateDTO) {
+        Pet pet = modelMapper.toPetEntity(petCreateDTO);
         petService.createPet(pet);
-        return "redirect:/pets/";
+        return modelMapper.toPetDTO(pet);
     }
 
     @GetMapping("/{id}")
-    public String getPetById(@PathVariable Long id, Model model) {
+    @ResponseBody
+    public PetGetDTO getPetById(@PathVariable Long id) {
         final Pet pet = petService.getPetById(id);
-        final User owner = userService.getUserById(pet.getOwner().getId());
-
-        model.addAttribute("pet", pet);
-        model.addAttribute("owner", owner);
-        return "pets/pet-details";
+        return modelMapper.toPetDTO(pet);
     }
     
-
-    @GetMapping("/{id}/edit")
-    public String editPet(@PathVariable Long id, Model model) {
-        final Pet pet = petService.getPetById(id);
-        final Collection<User> users = userService.getAllUsers();
-
-        model.addAttribute("pet", pet);
-        model.addAttribute("users", users);
-        return "pets/pet-edit";
-    }
-
-    @PostMapping("/{id}/edit")
-    public String updatePet(@PathVariable Long id, Pet pet) {
+    @PutMapping("/{id}")
+    @ResponseBody
+    public PetGetDTO updatePet(@PathVariable Long id, PetCreateDTO petCreateDTO) {
+        Pet pet = modelMapper.toPetEntity(petCreateDTO);
         petService.updatePet(id, pet);
-        return "redirect:/pets/" + id;
+        return modelMapper.toPetDTO(pet);
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
+    @ResponseBody
     public String deletePet(@PathVariable Long id) {
         petService.deletePet(id);
         return "redirect:/pets/";
     }
 
     @PostMapping("/{id}/status")
-    public String disablePet(@RequestParam("active") Optional<Boolean> active, @PathVariable Long id) {
+    @ResponseBody
+    public PetGetDTO disablePet(@RequestParam("active") Optional<Boolean> active, @PathVariable Long id) {
         if (!active.isPresent()) {
-            return "redirect:/pets/";
+            return modelMapper.toPetDTO(petService.getPetById(id));
         }
 
         petService.setActive(id, active.get());
-        return "redirect:/pets/";
+        return modelMapper.toPetDTO(petService.getPetById(id));
     }
 }
