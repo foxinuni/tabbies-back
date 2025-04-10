@@ -1,11 +1,9 @@
 package dev.downloadablefox.tabbies.webserver.services;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 
