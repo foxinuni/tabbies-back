@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dev.downloadablefox.tabbies.webserver.dtos.PetCreateDTO;
-import dev.downloadablefox.tabbies.webserver.dtos.PetGetDTO;
+import dev.downloadablefox.tabbies.webserver.dtos.PetUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.PetService;
@@ -33,7 +33,7 @@ public class PetController {
 
     @GetMapping("/")
     @ResponseBody
-    public Collection<PetGetDTO> listPets(Model model) {
+    public Collection<PetView> listPets(Model model) {
         return petService.getAllPets()
             .stream()
             .map(modelMapper::toPetDTO)
@@ -42,23 +42,23 @@ public class PetController {
 
     @PostMapping("/")
     @ResponseBody
-    public PetGetDTO createPet(@RequestBody PetCreateDTO petCreateDTO) {
-        Pet pet = modelMapper.toPetEntity(petCreateDTO);
+    public PetView createPet(@RequestBody PetUpsert dto) {
+        Pet pet = modelMapper.toPetEntity(dto);
         petService.createPet(pet);
         return modelMapper.toPetDTO(pet);
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public PetGetDTO getPetById(@PathVariable Long id) {
+    public PetView getPetById(@PathVariable Long id) {
         final Pet pet = petService.getPetById(id);
         return modelMapper.toPetDTO(pet);
     }
     
     @PutMapping("/{id}")
     @ResponseBody
-    public PetGetDTO updatePet(@PathVariable Long id, PetCreateDTO petCreateDTO) {
-        Pet pet = modelMapper.toPetEntity(petCreateDTO);
+    public PetView updatePet(@PathVariable Long id, @RequestBody PetUpsert dto) {
+        Pet pet = modelMapper.toPetEntity(dto);
         petService.updatePet(id, pet);
         return modelMapper.toPetDTO(pet);
     }
@@ -72,7 +72,7 @@ public class PetController {
 
     @PostMapping("/{id}/status")
     @ResponseBody
-    public PetGetDTO disablePet(@RequestParam("active") Optional<Boolean> active, @PathVariable Long id) {
+    public PetView disablePet(@RequestParam("active") Optional<Boolean> active, @PathVariable Long id) {
         if (!active.isPresent()) {
             return modelMapper.toPetDTO(petService.getPetById(id));
         }

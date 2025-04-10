@@ -135,4 +135,8 @@ public class Pet {
     public void setDisease(Disease disease) {
         this.disease = disease;
     }
+
+    public String toString() {
+        return "Pet[id=" + id + ", name=" + name + ", breed=" + breed + ", birthDate=" + birthDate + ", weight=" + weight + ", picture=" + picture + ", owner=" + owner + ", isDisabled=" + isDisabled + "]";
+    }
 }

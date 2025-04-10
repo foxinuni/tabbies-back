@@ -9,7 +9,6 @@ import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 
 @Service
 public class PetServiceImpl implements PetService {
-
     @Autowired
     private final PetRepository petRepository;
 

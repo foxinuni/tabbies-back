@@ -2,25 +2,29 @@ package dev.downloadablefox.tabbies.webserver.dtos;
 
 import java.time.LocalDate;
 
-public class PetCreateDTO {
+public class PetView {
+    private Long id;
     private String name;
     private String breed;
     private float weight;
     private String picture;
     private LocalDate birthDate;
     private Long ownerId;
-    private Boolean isDisabled;
+    private boolean disabled;
 
-    public PetCreateDTO() {}
-    
-    public PetCreateDTO(String name, String breed, float weight, String picture, LocalDate birthDate, Boolean isDisabled, Long ownerId) {
+    public PetView(Long id, String name, String breed, float weight, String picture, LocalDate birthDate, Long ownerId, Boolean isDisabled) {
+        this.id = id;
         this.name = name;
         this.breed = breed;
         this.weight = weight;
         this.picture = picture;
         this.birthDate = birthDate;
-        this.isDisabled = isDisabled;
         this.ownerId = ownerId;
+        this.disabled = isDisabled;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -43,11 +47,15 @@ public class PetCreateDTO {
         return birthDate;
     }
 
-    public Boolean getIsDisabled() {
-        return isDisabled;
-    }
-
     public Long getOwnerId() {
         return ownerId;
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public String toString() {
+        return "PetView[id=" + id + ", name=" + name + ", breed=" + breed + ", weight=" + weight + ", picture=" + picture + ", birthDate=" + birthDate + ", ownerId=" + ownerId + ", isDisabled=" + disabled + "]";
     }
 }

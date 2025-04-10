@@ -1,20 +1,22 @@
 package dev.downloadablefox.tabbies.webserver.dtos;
 
-public class UserCreateDTO {
+public class UserView {
+    private Long id;
     private int document;
     private String name;
     private String email;
     private Long number;
-    private String password;
 
-    public UserCreateDTO() {}
-
-    public UserCreateDTO(int document, String name, String email, Long number, String password) {
+    public UserView(Long id, int document, String name, String email, Long number) {
+        this.id = id;
         this.document = document;
         this.name = name;
         this.email = email;
         this.number = number;
-        this.password = password;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public int getDocument() {
@@ -33,8 +35,8 @@ public class UserCreateDTO {
         return number;
     }
 
-    public String getPassword() {
-        return password;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setDocument(int document) {
@@ -53,7 +55,7 @@ public class UserCreateDTO {
         this.number = number;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String toString() {
+        return "UserView[id=" + id + ", document=" + document + ", name=" + name + ", email=" + email + ", number=" + number + "]";
     }
 }

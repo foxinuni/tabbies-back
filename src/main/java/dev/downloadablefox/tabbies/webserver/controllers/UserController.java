@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dev.downloadablefox.tabbies.webserver.dtos.UserCreateDTO;
-import dev.downloadablefox.tabbies.webserver.dtos.UserGetDTO;
+import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.UserService;
@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/")
     @ResponseBody
-    public Collection<UserGetDTO> listUsers(Model model) {
+    public Collection<UserView> listUsers(Model model) {
         return userService.getAllUsers()
             .stream()
             .map(modelMapper::toUserDTO)
@@ -41,22 +41,22 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseBody
-    public UserGetDTO createUser(@RequestBody UserCreateDTO userCreateDTO) {
-        User user = modelMapper.toUserEntity(userCreateDTO);
+    public UserView createUser(@RequestBody UserUpsert dto) {
+        User user = modelMapper.toUserEntity(dto);
         userService.createUser(user);
         return modelMapper.toUserDTO(user);
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public UserGetDTO getUserById(@PathVariable Long id) {
+    public UserView getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return modelMapper.toUserDTO(user);
     }
     
     @PutMapping("/{id}")
-    public UserGetDTO updateUser(@PathVariable Long id, @RequestBody UserCreateDTO userCreateDTO) {
-        User user = modelMapper.toUserEntity(userCreateDTO);
+    public UserView updateUser(@PathVariable Long id, @RequestBody UserUpsert dto) {
+        User user = modelMapper.toUserEntity(dto);
         userService.updateUser(id, user);
         return modelMapper.toUserDTO(user);
     }

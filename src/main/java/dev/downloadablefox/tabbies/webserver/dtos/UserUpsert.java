@@ -1,22 +1,20 @@
 package dev.downloadablefox.tabbies.webserver.dtos;
 
-public class UserGetDTO {
-    private Long id;
+public class UserUpsert {
     private int document;
     private String name;
     private String email;
     private Long number;
+    private String password;
 
-    public UserGetDTO(Long id, int document, String name, String email, Long number) {
-        this.id = id;
+    public UserUpsert() {}
+
+    public UserUpsert(int document, String name, String email, Long number, String password) {
         this.document = document;
         this.name = name;
         this.email = email;
         this.number = number;
-    }
-
-    public Long getId() {
-        return id;
+        this.password = password;
     }
 
     public int getDocument() {
@@ -35,8 +33,8 @@ public class UserGetDTO {
         return number;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getPassword() {
+        return password;
     }
 
     public void setDocument(int document) {
@@ -53,5 +51,13 @@ public class UserGetDTO {
 
     public void setNumber(Long number) {
         this.number = number;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String toString() {
+        return "UserUpsert[document=" + document + ", name=" + name + ", email=" + email + ", number=" + number + ", password=" + password + "]";
     }
 }
