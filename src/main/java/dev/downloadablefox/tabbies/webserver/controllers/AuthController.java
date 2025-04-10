@@ -24,12 +24,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> auth(HttpServletResponse response, @RequestBody Credentials auth) {
+        System.out.println("Login attempt: " + auth.toString());
         final Optional<User> user = authService.login(auth.getEmail(), auth.getPassword());
 
         if (user.isPresent()) {
             response.addCookie(new Cookie("session", auth.getEmail()) {{
                 setPath("/");
                 setMaxAge(60 * 60 * 24 * 30);
+                setHttpOnly(true);
+                setSecure(true);
             }});
 
             return ResponseEntity.ok().build();

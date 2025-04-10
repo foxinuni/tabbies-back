@@ -19,4 +19,8 @@ public class Credentials {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String toString() {
+        return "Credentials[email=" + email + ", password=" + password + "]";
+    }
 }
