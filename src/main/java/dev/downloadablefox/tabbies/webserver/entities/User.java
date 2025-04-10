@@ -53,9 +53,7 @@ public class User {
         this.number = number;
     }
 
-    public User() {
-
-    }
+    public User() {}
 
     public Long getId() {
         return id;
