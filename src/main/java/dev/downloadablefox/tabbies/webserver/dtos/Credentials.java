@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.entities;
+package dev.downloadablefox.tabbies.webserver.dtos;
 
 public class Credentials {
     private String email;
