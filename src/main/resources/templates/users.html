@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbies - User Listing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/users.css">
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo"><h1>Tabbies</h1></a>
+    </header>
+    <main>
+        <section class="user-listing">
+            <h1>User List</h1>
+            <a href="/users/new" class="btn btn-primary">New User</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Email</th>
+                        <th>Number</th>
+                        <th>Pets</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iterate over the list of users -->
+                    <tr th:each="user : ${users}"></tr>
+                        <td th:text="${user.document}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.number}"></td>
+                        <td th:text="${user.pets.size()}"></td>
+                        <td class="center"></td>
+                            <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-primary">View</a>
+                            <form th:action="@{/users/{id}/delete(id=${user.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-secondary">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
