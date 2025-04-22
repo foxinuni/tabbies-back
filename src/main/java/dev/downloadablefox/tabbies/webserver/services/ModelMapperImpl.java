@@ -7,8 +7,11 @@ import dev.downloadablefox.tabbies.webserver.dtos.PetUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.UserView;
+import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 
 @Service
 public class ModelMapperImpl implements ModelMapper {
@@ -34,6 +37,16 @@ public class ModelMapperImpl implements ModelMapper {
     @Override
     public PetView toPetDTO(Pet pet) {
         return new PetView(pet.getId(), pet.getName(), pet.getBreed(), pet.getWeight(), pet.getPicture(), pet.getBirthDate(), pet.getOwner().getId(), pet.getIsDisabled());
+    }
+
+    @Override
+    public Veterinary toVeterinaryEntity(VeterinarianUpsert veterinaryCreateDTO) {
+        return new Veterinary(veterinaryCreateDTO.getRole(), veterinaryCreateDTO.getSpeciality(), veterinaryCreateDTO.getPicture(), veterinaryCreateDTO.getDocument(), veterinaryCreateDTO.getName(), veterinaryCreateDTO.getEmail(), veterinaryCreateDTO.getNumber());
+    }
+
+    @Override
+    public VeterinarianView toVeterinaryDTO(Veterinary veterinary) {
+        return new VeterinarianView(veterinary.getId(), veterinary.getName(), veterinary.getEmail(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getRole(), veterinary.getSpeciality(), veterinary.getPicture());
     }
     
 }
