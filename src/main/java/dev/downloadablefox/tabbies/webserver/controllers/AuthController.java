@@ -3,6 +3,7 @@ package dev.downloadablefox.tabbies.webserver.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +26,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Void> auth(HttpServletResponse response, @RequestBody Credentials auth) {
         System.out.println("Login attempt: " + auth.toString());
-        final Optional<User> user = authService.login(auth.getEmail(), auth.getPassword());
+        final Optional<Pair<User, String>> userTokenPair = authService.login(auth.getEmail(), auth.getPassword());
 
-        if (user.isPresent()) {
-            response.addCookie(new Cookie("session", auth.getEmail()) {{
+        if (userTokenPair.isPresent()) {
+            response.addCookie(new Cookie("session", userTokenPair.get().getSecond()) {{
                 setPath("/");
                 setMaxAge(60 * 60 * 24 * 30);
                 setHttpOnly(true);
