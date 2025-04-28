@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
-import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
-import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
-import dev.downloadablefox.tabbies.webserver.services.UserService;
 import dev.downloadablefox.tabbies.webserver.services.VeterinarianService;
 
 @Controller
@@ -62,7 +58,7 @@ public class VeterinarianController {
     public VeterinarianView updateVeterinarian(@PathVariable Long id, @RequestBody VeterinarianUpsert dto) {
         Veterinary veterinary = modelMapper.toVeterinaryEntity(dto);
         veterinarianService.updateVeterinarian(id, veterinary);
-        return modelMapper.toVeterinaryDTO(veterinary)
+        return modelMapper.toVeterinaryDTO(veterinary);
     }
 
     @DeleteMapping("/{id}")

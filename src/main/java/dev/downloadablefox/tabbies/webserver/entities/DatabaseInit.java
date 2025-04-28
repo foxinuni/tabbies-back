@@ -11,10 +11,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
+import dev.downloadablefox.tabbies.webserver.services.MedicineExcelService;
 import jakarta.transaction.Transactional;
 
 @Component
@@ -33,6 +35,13 @@ public class DatabaseInit implements ApplicationRunner {
 
     @Autowired
     ProcedureRepository procedureRepository;
+
+    @Autowired
+    MedicineRepository medicineRepository;
+
+    @Autowired
+    MedicineExcelService medicineExcelService;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -142,6 +151,14 @@ public class DatabaseInit implements ApplicationRunner {
         };
 
         
+        try {
+            List<Medicine> medicines = medicineExcelService.loadMedicinesFromResource();
+            medicineRepository.saveAll(medicines);
+            System.out.println("Medicamentos cargados exitosamente: " + medicines.size());
+        } catch (Exception e) {
+            System.err.println("Error cargando medicamentos: " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 }
