@@ -31,7 +31,7 @@ public class MedicineController {
 
     @GetMapping("/")
     @ResponseBody
-    public Collection<MedicineView> listUsers() {
+    public Collection<MedicineView> listMedicine() {
         return medicineService.getAllMedicines()
             .stream()
             .map(modelMapper::toMedicineDTO)
@@ -40,7 +40,7 @@ public class MedicineController {
 
     @PostMapping("/")
     @ResponseBody
-    public MedicineView createUser(@RequestBody MedicineUpsert dto) {
+    public MedicineView createMedicine(@RequestBody MedicineUpsert dto) {
         Medicine medicine = modelMapper.toMedicineEntity(dto);
         medicineService.createMedicine(medicine);
         return modelMapper.toMedicineDTO(medicine);
@@ -48,20 +48,22 @@ public class MedicineController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public MedicineView getUserById(@PathVariable Long id) {
+    public MedicineView getMedicineById(@PathVariable Long id) {
         Medicine medicine = medicineService.getMedicineById(id);
         return modelMapper.toMedicineDTO(medicine);
     }
     
     @PutMapping("/{id}")
-    public MedicineView updateUser(@PathVariable Long id, @RequestBody MedicineUpsert dto) {
+    @ResponseBody
+    public MedicineView updateMedicine(@PathVariable Long id, @RequestBody MedicineUpsert dto) {
         Medicine medicine = modelMapper.toMedicineEntity(dto);
         medicineService.updateMedicine(id, medicine);
         return modelMapper.toMedicineDTO(medicine);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    @ResponseBody
+    public ResponseEntity<Void> deleteMedicine(@PathVariable Long id) {
         medicineService.deleteMedicine(id);
         return ResponseEntity.noContent().build();
     }

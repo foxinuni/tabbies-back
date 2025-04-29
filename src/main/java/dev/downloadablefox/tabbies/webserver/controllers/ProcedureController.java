@@ -54,6 +54,7 @@ public class ProcedureController {
     }
     
     @PutMapping("/{id}")
+    @ResponseBody
     public ProcedureView updateProcedure(@PathVariable Long id, @RequestBody ProcedureUpsert dto) {
         Procedure procedure = modelMapper.toProcedureEntity(dto);
         procedureService.updateProcedure(id, procedure);
@@ -61,6 +62,7 @@ public class ProcedureController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Void> deleteProcedure(@PathVariable Long id) {
         procedureService.deleteProcedure(id);
         return ResponseEntity.noContent().build();

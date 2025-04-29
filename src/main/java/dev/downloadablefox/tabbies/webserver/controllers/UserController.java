@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/")
     @ResponseBody
-    public Collection<UserView> listUsers(Model model) {
+    public Collection<UserView> listUsers() {
         return userService.getAllUsers()
             .stream()
             .map(modelMapper::toUserDTO)
@@ -55,6 +55,7 @@ public class UserController {
     }
     
     @PutMapping("/{id}")
+    @ResponseBody
     public UserView updateUser(@PathVariable Long id, @RequestBody UserUpsert dto) {
         User user = modelMapper.toUserEntity(dto);
         userService.updateUser(id, user);

@@ -55,6 +55,7 @@ public class VeterinarianController {
     }
     
     @PutMapping("/{id}")
+    @ResponseBody
     public VeterinarianView updateVeterinarian(@PathVariable Long id, @RequestBody VeterinarianUpsert dto) {
         Veterinary veterinary = modelMapper.toVeterinaryEntity(dto);
         veterinarianService.updateVeterinarian(id, veterinary);
@@ -62,6 +63,7 @@ public class VeterinarianController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseBody
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         veterinarianService.deleteVeterinarian(id);
         return ResponseEntity.noContent().build();
