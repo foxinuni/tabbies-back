@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.downloadablefox.tabbies.webserver.dtos.Credentials;
 import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.services.auth.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,5 +51,23 @@ public class AuthController {
         }});
 
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/login-vet")
+    public ResponseEntity<Void> authVet(HttpServletResponse response, @RequestBody Credentials auth) {
+        System.out.println("Login attempt: " + auth.toString());
+        final Optional<Pair<Veterinary, String>> userTokenPair = authService.loginVet(auth.getEmail(), auth.getPassword());
+
+        if (userTokenPair.isPresent()) {
+            response.addCookie(new Cookie("session", userTokenPair.get().getSecond()) {{
+                setPath("/");
+                setMaxAge(60 * 60 * 24 * 30);
+                setHttpOnly(true);
+                setSecure(true);
+            }});
+
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(401).build();
+        }
     }
 }

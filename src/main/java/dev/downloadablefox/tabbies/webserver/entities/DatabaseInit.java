@@ -133,6 +133,7 @@ public class DatabaseInit implements ApplicationRunner {
         
            veterinarians.add(veterinaryRepository.save(new Veterinary(role, specialty, picture, document, name, email, number)));
         }
+        veterinarians.add(veterinaryRepository.save(new Veterinary("Admin", "Cardiología", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin","admin@tabbies.com", 3206214141L)));
 
         String[] procedureNotes ={
             "Consulta general", "Vacunación", "Desparacitación", "Chequeo dental",

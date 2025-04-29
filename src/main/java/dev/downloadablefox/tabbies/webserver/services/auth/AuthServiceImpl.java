@@ -7,12 +7,17 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
 
 @Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VeterinaryRepository VeterinaryRepository;
 
     @Autowired
     private TokenService tokenService;
@@ -42,5 +47,18 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public Optional<Pair<Veterinary, String>> loginVet(String email, String password) {
+        for (Veterinary user : VeterinaryRepository.findAll()) {
+            if (user.getEmail().equals(email) && user.getName().toLowerCase().equals(password)) {
+                String token = tokenService.generateToken(user.getId());
+                Pair<Veterinary, String> userTokenPair = Pair.of(user, token);
+                return Optional.of(userTokenPair);
+            }
+        }
+
+        return Optional.empty();
     }
 }
