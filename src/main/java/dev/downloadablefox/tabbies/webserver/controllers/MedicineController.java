@@ -1,12 +1,10 @@
 package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.downloadablefox.tabbies.webserver.dtos.MedicineUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.MedicineView;
-import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
-import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
-import dev.downloadablefox.tabbies.webserver.entities.User;
-import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 import dev.downloadablefox.tabbies.webserver.services.common.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.medicine.MedicineService;
 
