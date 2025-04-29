@@ -3,6 +3,8 @@ package dev.downloadablefox.tabbies.webserver.services.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.downloadablefox.tabbies.webserver.dtos.MedicineUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.MedicineView;
 import dev.downloadablefox.tabbies.webserver.dtos.PetUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.dtos.ProcedureUpsert;
@@ -33,7 +35,7 @@ public class ModelMapperImpl implements ModelMapper {
     private MedicineService medicineService;
 
     @Autowired
-    private VeterinarianService veterinarianService;
+    private VeterinarianService veterinarianService;    
 
     @Override
     public User toUserEntity(UserUpsert dto) {
@@ -47,7 +49,7 @@ public class ModelMapperImpl implements ModelMapper {
 
     @Override
     public Pet toPetEntity(PetUpsert dto) {
-        User user = userService.getUserById(dto.getOwnerId());
+        final User user = userService.getUserById(dto.getOwnerId());
         return new Pet(dto.getName(), dto.getBreed(), dto.getBirthDate(), dto.getWeight(), dto.getPicture(), user, dto.getDisabled());
     }
 
@@ -64,6 +66,16 @@ public class ModelMapperImpl implements ModelMapper {
     @Override
     public VeterinarianView toVeterinaryDTO(Veterinary veterinary) {
         return new VeterinarianView(veterinary.getId(), veterinary.getName(), veterinary.getEmail(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getRole(), veterinary.getSpeciality(), veterinary.getPicture());
+    }
+
+    @Override
+    public Medicine toMedicineEntity(MedicineUpsert medicine) {
+        return new Medicine(medicine.getName(), medicine.getBuyPrice(), medicine.getSellPrice(), medicine.getStock(), medicine.getStock());
+    }
+
+    @Override
+    public MedicineView toMedicineDTO(Medicine medicine) {
+        return new MedicineView(medicine.getId(), medicine.getName(), medicine.getBuyPrice(), medicine.getSellPrice(), medicine.getStock(), medicine.getSold());
     }
 
     @Override

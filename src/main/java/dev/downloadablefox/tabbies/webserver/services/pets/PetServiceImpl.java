@@ -33,10 +33,12 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void updatePet(Long id, Pet pet) {
-        if (petRepository.existsById(id)) {
-            pet.setId(id);
-            petRepository.save(pet);
+        if (!petRepository.existsById(id)) {
+            throw new IllegalArgumentException("Pet not found with id: " + id);
         }
+
+        pet.setId(id);
+        petRepository.save(pet);
     }
 
     @Override

@@ -2,6 +2,8 @@ package dev.downloadablefox.tabbies.webserver.services.common;
 
 import org.springframework.stereotype.Service;
 
+import dev.downloadablefox.tabbies.webserver.dtos.MedicineUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.MedicineView;
 import dev.downloadablefox.tabbies.webserver.dtos.PetUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.dtos.ProcedureUpsert;
@@ -10,6 +12,7 @@ import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
+import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.Procedure;
 import dev.downloadablefox.tabbies.webserver.entities.User;
@@ -28,6 +31,10 @@ public interface ModelMapper {
     // Veterinary
     Veterinary toVeterinaryEntity(VeterinarianUpsert veterinaryCreateDTO);
     VeterinarianView toVeterinaryDTO(Veterinary veterinary);
+
+    // Medicine
+    Medicine toMedicineEntity(MedicineUpsert medicineCreateDTO);
+    MedicineView toMedicineDTO(Medicine medicine);
 
     // Procedure
     Procedure toProcedureEntity(ProcedureUpsert procedureCreateDTO);

@@ -29,8 +29,13 @@ public class UserServiceImpl implements UserService {
 
     public void updateUser(Long id, User user) {
         User existingUser = userRepository.findById(id).get();
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User not found with id: " + id);
+        }
+        
         user.setId(id);
         user.setPets(existingUser.getPets());
+
         userRepository.save(user);
     }
 

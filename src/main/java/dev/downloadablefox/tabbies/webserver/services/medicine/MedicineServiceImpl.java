@@ -31,6 +31,10 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public void updateMedicine(Long id, Medicine medicine) {
+        if (!medicineRepository.existsById(id)) {
+            throw new IllegalArgumentException("Medicine with ID " + id + " not found");
+        }
+
         medicine.setId(id);
         this.medicineRepository.save(medicine);
     }
