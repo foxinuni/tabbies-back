@@ -12,7 +12,7 @@ import jakarta.persistence.OneToOne;
 public class Procedure {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -32,8 +32,9 @@ public class Procedure {
     @JoinColumn(name = "veterinary_id", nullable = false)
     private Veterinary veterinary;
 
-
-    public Procedure(Integer id, Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
+    public Procedure() {}
+    
+    public Procedure(Long id, Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
         this.id = id;
         this.quantity = quantity;
         this.notes = notes;
@@ -41,21 +42,20 @@ public class Procedure {
         this.medicine = medicine;
         this.veterinary = veterinary;
     }
-    public Procedure(Integer quantity, String notes , Pet pet, Medicine medicine, Veterinary veterinary) {
+
+    public Procedure(Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
         this.quantity = quantity;
         this.notes = notes;
         this.pet = pet;
         this.medicine = medicine;
         this.veterinary = veterinary;
     }
-    public Procedure() {
-    }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,7 +75,6 @@ public class Procedure {
         this.notes = notes;
     }  
 
-
     public Pet getPet() {
         return pet;
     }
@@ -87,12 +86,15 @@ public class Procedure {
     public Medicine getMedicine() {
         return medicine;
     }
+    
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
     }
+    
     public Veterinary getVeterinary() {
         return veterinary;
     }
+
     public void setVeterinary(Veterinary veterinary) {
         this.veterinary = veterinary;
     }

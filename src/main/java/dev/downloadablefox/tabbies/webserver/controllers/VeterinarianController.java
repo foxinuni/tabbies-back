@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
-import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
-import dev.downloadablefox.tabbies.webserver.services.VeterinarianService;
+import dev.downloadablefox.tabbies.webserver.services.common.ModelMapper;
+import dev.downloadablefox.tabbies.webserver.services.veterinary.VeterinarianService;
 
 @Controller
 @RequestMapping("/veterinarians")

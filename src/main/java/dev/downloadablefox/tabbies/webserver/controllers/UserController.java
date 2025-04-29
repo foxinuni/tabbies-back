@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.entities.User;
-import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
-import dev.downloadablefox.tabbies.webserver.services.UserService;
+import dev.downloadablefox.tabbies.webserver.services.common.ModelMapper;
+import dev.downloadablefox.tabbies.webserver.services.user.UserService;
 
 @Controller
 @RequestMapping("/users")

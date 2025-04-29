@@ -16,7 +16,7 @@ import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
-import dev.downloadablefox.tabbies.webserver.services.MedicineExcelService;
+import dev.downloadablefox.tabbies.webserver.services.medicine.MedicineExcelService;
 import jakarta.transaction.Transactional;
 
 @Component

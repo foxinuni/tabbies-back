@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 
 @Repository
-public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
+public interface MedicineRepository extends JpaRepository<Medicine, Long> {
     
 }
-

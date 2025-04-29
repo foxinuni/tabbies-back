@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.services;
+package dev.downloadablefox.tabbies.webserver.services.pets;
 
 import java.util.Collection;
 

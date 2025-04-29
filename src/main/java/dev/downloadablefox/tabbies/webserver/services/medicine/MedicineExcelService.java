@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.services;
+package dev.downloadablefox.tabbies.webserver.services.medicine;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,17 +14,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
-import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 
 @Service
 public class MedicineExcelService {
-
-    private final MedicineRepository medicineRepository;
-
-    public MedicineExcelService(MedicineRepository medicineRepository) {
-        this.medicineRepository = medicineRepository;
-    }
-
     public List<Medicine> loadMedicinesFromResource() throws Exception {
         List<Medicine> medicines = new ArrayList<>();
 
@@ -67,6 +59,7 @@ public class MedicineExcelService {
         } else if (cell.getCellType() == CellType.FORMULA) {
             return cell.getRichStringCellValue().getString();
         }
+
         return null;
     }
 
@@ -84,6 +77,7 @@ public class MedicineExcelService {
                 return null;
             }
         }
+
         return null;
     }
 

@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.services;
+package dev.downloadablefox.tabbies.webserver.services.auth;
 
 import org.springframework.stereotype.Service;
 

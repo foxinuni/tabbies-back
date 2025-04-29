@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.downloadablefox.tabbies.webserver.dtos.Credentials;
 import dev.downloadablefox.tabbies.webserver.entities.User;
-import dev.downloadablefox.tabbies.webserver.services.AuthService;
+import dev.downloadablefox.tabbies.webserver.services.auth.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 

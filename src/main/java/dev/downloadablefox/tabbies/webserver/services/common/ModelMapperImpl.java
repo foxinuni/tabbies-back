@@ -1,22 +1,39 @@
-package dev.downloadablefox.tabbies.webserver.services;
+package dev.downloadablefox.tabbies.webserver.services.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.downloadablefox.tabbies.webserver.dtos.PetUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
+import dev.downloadablefox.tabbies.webserver.dtos.ProcedureUpsert;
+import dev.downloadablefox.tabbies.webserver.dtos.ProcedureView;
 import dev.downloadablefox.tabbies.webserver.dtos.UserUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.UserView;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianUpsert;
 import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
+import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.Procedure;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
+import dev.downloadablefox.tabbies.webserver.services.medicine.MedicineService;
+import dev.downloadablefox.tabbies.webserver.services.pets.PetService;
+import dev.downloadablefox.tabbies.webserver.services.user.UserService;
+import dev.downloadablefox.tabbies.webserver.services.veterinary.VeterinarianService;
 
 @Service
 public class ModelMapperImpl implements ModelMapper {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PetService petService;
+
+    @Autowired
+    private MedicineService medicineService;
+
+    @Autowired
+    private VeterinarianService veterinarianService;
 
     @Override
     public User toUserEntity(UserUpsert dto) {
@@ -48,5 +65,20 @@ public class ModelMapperImpl implements ModelMapper {
     public VeterinarianView toVeterinaryDTO(Veterinary veterinary) {
         return new VeterinarianView(veterinary.getId(), veterinary.getName(), veterinary.getEmail(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getRole(), veterinary.getSpeciality(), veterinary.getPicture());
     }
+
+    @Override
+    public Procedure toProcedureEntity(ProcedureUpsert procedureCreateDTO) {
+        final Pet pet = petService.getPetById(procedureCreateDTO.getPetId());
+        final Veterinary veterinary = veterinarianService.getVeterinarianById(procedureCreateDTO.getVeterinaryId());
+        final Medicine medicine = medicineService.getMedicineById(procedureCreateDTO.getMedicineId());
+
+        return new Procedure(procedureCreateDTO.getQuantity(), procedureCreateDTO.getNotes(), pet, medicine, veterinary);
+    }
     
+    @Override
+    public ProcedureView toProcedureDTO(Procedure procedure) {
+        final Medicine medicine = procedure.getMedicine();
+
+        return new ProcedureView(procedure.getId(), procedure.getQuantity(), procedure.getNotes(), procedure.getPet().getId(), (medicine == null) ? null : medicine.getId(), procedure.getVeterinary().getId());
+    }
 }

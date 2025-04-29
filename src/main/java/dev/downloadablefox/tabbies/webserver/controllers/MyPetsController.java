@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
-import dev.downloadablefox.tabbies.webserver.services.AuthService;
-import dev.downloadablefox.tabbies.webserver.services.ModelMapper;
-import dev.downloadablefox.tabbies.webserver.services.PetService;
+import dev.downloadablefox.tabbies.webserver.services.auth.AuthService;
+import dev.downloadablefox.tabbies.webserver.services.common.ModelMapper;
+import dev.downloadablefox.tabbies.webserver.services.pets.PetService;
 
 @Controller
 @RequestMapping("/my-pets")
