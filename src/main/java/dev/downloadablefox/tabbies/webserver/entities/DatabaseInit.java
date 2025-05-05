@@ -203,7 +203,7 @@ public class DatabaseInit implements ApplicationRunner {
         
         // Base veterinarians for testing
         veterinarians.add(veterinaryRepository.save(new Veterinary("Admin", "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", "admin@tabbies.com", 3206214141L)));
-
+        veterinarians.add(veterinaryRepository.save(new Veterinary("Veterinary", "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", "vet@tabbies.com", 321623232L)));
         generateUsers(users); // Generate users with random data
         generatePets(pets, users); // Generate pets with random data
         generateVets(veterinarians); // Generate veterinarians with random data
