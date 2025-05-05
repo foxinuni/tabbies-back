@@ -1,8 +1,10 @@
 package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.downloadablefox.tabbies.webserver.dtos.ProcedureUpsert;
@@ -66,5 +69,20 @@ public class ProcedureController {
     public ResponseEntity<Void> deleteProcedure(@PathVariable Long id) {
         procedureService.deleteProcedure(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    @ResponseBody
+    public Collection<ProcedureView> getProceduresByPetId(@RequestParam("petId") Optional<Long> petId) {
+        if (petId.isEmpty()) {
+            throw new IllegalArgumentException("The 'petId' query parameter is required.");
+        }
+
+        System.out.println("Received petId: " + petId.get());
+
+        return procedureService.getProceduresByPetId(petId.get())
+            .stream()
+            .map(modelMapper::toProcedureDTO)
+            .toList();
     }
 }

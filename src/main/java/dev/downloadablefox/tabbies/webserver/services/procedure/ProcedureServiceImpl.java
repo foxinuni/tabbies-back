@@ -1,6 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.services.procedure;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,12 @@ public class ProcedureServiceImpl implements ProcedureService{
     public ProcedureServiceImpl(ProcedureRepository procedureRepository) {
         this.procedureRepository = procedureRepository;
     }
+
+    @Override
+        public Collection<Procedure> getProceduresByPetId(Long petId) {
+            System.out.println(petId);
+            return procedureRepository.findByPetId(petId);
+        }
 
     @Override
     public Collection<Procedure> getAllProcedures() {
