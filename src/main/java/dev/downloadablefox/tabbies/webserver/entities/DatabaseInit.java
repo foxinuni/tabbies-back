@@ -54,10 +54,21 @@ public class DatabaseInit implements ApplicationRunner {
         for (int i = 0; i < 50; i++) {
             String nombre = nombres[i % nombres.length];
             String hash = nombres[i % nombres.length].toLowerCase();
-            String email = String.format("%s%d@email.com", nombre.toLowerCase(), i);
             int documento = 100000000 + random.nextInt(900000000);
             long numero = 3000000000L + random.nextInt(1000000000);
-            
+
+            String prefix = nombre.toLowerCase()
+                .replaceAll("[áàäâ]", "a")
+                .replaceAll("[éèëê]", "e")
+                .replaceAll("[íìïî]", "i")
+                .replaceAll("[óòöô]", "o")
+                .replaceAll("[úùüû]", "u")
+                .replaceAll("[ñ]", "n")
+                .replaceAll("[^a-z]", "") // Remove non-alphabetic characters
+                .replace(" ", "-"); // Replace spaces with hyphens
+
+            String email = String.format("%s%d@email.com", prefix, i);
+
             final User user = new User(documento, nombre, email, hash, numero);
             users.add(userRepository.save(user));
         }
