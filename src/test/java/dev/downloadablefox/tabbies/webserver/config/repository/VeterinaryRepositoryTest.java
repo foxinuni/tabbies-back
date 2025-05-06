@@ -93,9 +93,28 @@ public class VeterinaryRepositoryTest {
             
         Assertions.assertThat(veterinary).isNotNull();
     }
+
+    //test findBySpeciality #4
+    @Test
+    public void VeterinaryRepository_findBySpeciality_ReturnsList() {
+        List<Veterinary> cardiologyVeterinaries = veterinaryRepository.findBySpeciality("Cardiología");
+
+        Assertions.assertThat(cardiologyVeterinaries).isNotEmpty();
+        Assertions.assertThat(cardiologyVeterinaries.get(0).getSpeciality()).isEqualTo("Cardiología");
+    }
+
+    @Test
+    public void VeterinaryRepository_findByNumber_ReturnsVeterinary() {
+        Long number = 363962916L;
+
+        Optional<Veterinary> veterinary = veterinaryRepository.findByNumber(number);
+
+        Assertions.assertThat(veterinary).isPresent();
+        Assertions.assertThat(veterinary.get().getNumber()).isEqualTo(number);
+    }
+
+
     
-
-
     @Test
     public void VeterinaryFindAll_NotEmptyList() {
         Veterinary veterinary = new Veterinary(
