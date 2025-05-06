@@ -54,10 +54,21 @@ public class DatabaseInit implements ApplicationRunner {
         for (int i = 0; i < 50; i++) {
             String nombre = nombres[i % nombres.length];
             String hash = nombres[i % nombres.length].toLowerCase();
-            String email = String.format("%s%d@email.com", nombre.toLowerCase(), i);
             int documento = 100000000 + random.nextInt(900000000);
             long numero = 3000000000L + random.nextInt(1000000000);
-            
+
+            String prefix = nombre.toLowerCase()
+                .replaceAll("[áàäâ]", "a")
+                .replaceAll("[éèëê]", "e")
+                .replaceAll("[íìïî]", "i")
+                .replaceAll("[óòöô]", "o")
+                .replaceAll("[úùüû]", "u")
+                .replaceAll("[ñ]", "n")
+                .replaceAll("[^a-z]", "") // Remove non-alphabetic characters
+                .replace(" ", "-"); // Replace spaces with hyphens
+
+            String email = String.format("%s%d@email.com", prefix, i);
+
             final User user = new User(documento, nombre, email, hash, numero);
             users.add(userRepository.save(user));
         }
@@ -118,6 +129,7 @@ public class DatabaseInit implements ApplicationRunner {
             String specialty = specialties[i % specialties.length];
             String picture = veterinaryImages[i % veterinaryImages.length];
             String role = "Veterinary";
+
 
             Long number = 310000000L + random.nextInt(90000000);
             Integer document = 200000000 + random.nextInt(800000000);
@@ -191,7 +203,7 @@ public class DatabaseInit implements ApplicationRunner {
         
         // Base veterinarians for testing
         veterinarians.add(veterinaryRepository.save(new Veterinary("Admin", "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", "admin@tabbies.com", 3206214141L)));
-
+        veterinarians.add(veterinaryRepository.save(new Veterinary("Veterinary", "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", "vet@tabbies.com", 321623232L)));
         generateUsers(users); // Generate users with random data
         generatePets(pets, users); // Generate pets with random data
         generateVets(veterinarians); // Generate veterinarians with random data

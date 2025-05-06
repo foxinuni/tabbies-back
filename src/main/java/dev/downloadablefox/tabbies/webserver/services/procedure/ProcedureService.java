@@ -13,4 +13,5 @@ public interface ProcedureService {
     public void createProcedure(Procedure procedure);
     public void updateProcedure(Long id, Procedure procedure);
     public void deleteProcedure(Long id);
+    public Collection<Procedure> getProceduresByPetId(Long id);
 }
