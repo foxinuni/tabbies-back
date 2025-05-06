@@ -11,6 +11,8 @@ import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 @Service
 public interface AuthService {
     Optional<Pair<User, String>> login(String email, String password);
-    Optional<Pair<Veterinary, String>> loginVet(String email, String password);
     Optional<User> validate(String token);
+    
+    Optional<Pair<Veterinary, String>> loginVet(String email, String password);
+    Optional<Veterinary> validateVet(String token);
 }
