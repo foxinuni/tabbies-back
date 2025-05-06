@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,8 +26,8 @@ public class VeterinaryRepositoryTest {
     VeterinaryRepository veterinaryRepository;
 
  
-    @Before
-    void setUp() {
+    @BeforeEach
+    public void setUp() {
         veterinaryRepository.save(new Veterinary(
             "Veterinary", 
             "Cardiología",
@@ -55,6 +56,25 @@ public class VeterinaryRepositoryTest {
         
     }
 
+
+    //Test Save #1
+    @Test
+    public void VeterinaryRepository_save_Veterinary() {
+        Veterinary veterinary = new Veterinary(
+            "Veterinary",
+            "Cardiología",
+            "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
+            886333639,
+            "Dra. María López",
+            "maria-lopez2@tabbies.com",
+            363962917L
+        );
+        Veterinary savedVeterinary = veterinaryRepository.save(veterinary);
+        Assertions.assertThat(savedVeterinary).isNotNull();
+    }
+
+
+    //Test Find By Email #2
     @Test
     public void VeterinaryRepositoryTest_findByEmail_email() {
         Veterinary veterinary = new Veterinary("Veterinary","Cardiología","https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",886333637,"Dra. María López","maria-lopez@tabbies.com",363962915L);
@@ -64,7 +84,17 @@ public class VeterinaryRepositoryTest {
         Assertions.assertThat(savedVeterinary).isNotNull();
         
     }
+
+    //test findByDocument test #3
+    @Test
+    public void VeterinaryRepository_findByDocument_Document() {
+        Integer document = 886333637;
+        Optional<Veterinary> veterinary = veterinaryRepository.findByDocument(document);
+            
+        Assertions.assertThat(veterinary).isNotNull();
+    }
     
+
 
     @Test
     public void VeterinaryFindAll_NotEmptyList() {
@@ -98,7 +128,7 @@ public class VeterinaryRepositoryTest {
 
     @Test
     public void VeterinaryRepository_findByID_FindWrongIndex() {
-        Long index = 1L;
+        Long index = 99L;
 
         Optional<Veterinary> veterinary = veterinaryRepository.findById(index);
         
@@ -114,13 +144,6 @@ public class VeterinaryRepositoryTest {
         Assertions.assertThat(veterinary).isEmpty();
     }
 
-    @Test
-    public void VeterinaryRepository_findByDocument_Document() {
-        Integer document = 886333637;
-        Optional<Veterinary> veterinary = veterinaryRepository.findByDocument(document);
-        
-        Assertions.assertThat(veterinary).isNotNull();
-    }
 
     @Test
     public void VeterinaryRepository_UpdateVeterinary_document() {
