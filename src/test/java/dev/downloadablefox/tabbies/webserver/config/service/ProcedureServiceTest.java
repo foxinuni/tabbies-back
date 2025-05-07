@@ -1,64 +1,143 @@
 package dev.downloadablefox.tabbies.webserver.config.service;
 
-import dev.downloadablefox.tabbies.webserver.entities.*;
-import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureService;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-
+import dev.downloadablefox.tabbies.webserver.entities.Medicine;
+import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
+import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
+import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
+import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureService;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @Transactional
 public class ProcedureServiceTest {
 
     @Autowired
     private ProcedureService procedureService;
 
+    @Autowired
+    private ProcedureRepository procedureRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private VeterinaryRepository veterinaryRepository;
+
+    @Autowired
+    private PetRepository petRepository;
+
+    @Autowired
+    private MedicineRepository medicineRepository;
+
     private User user;
     private Veterinary veterinary;
     private Pet pet;
     private Medicine medicine;
 
-    @Before
-    public void setUp() {
-        user = new User(123456789, "Paco", "Paco@gmail.com", "paco", 123456789L);
-        veterinary = new Veterinary(
-            "Veterinary", 
-            "Cardiología", 
-            "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 
-            886333637, 
-            "Dra. María López", 
-            "maria-lopez@tabbies.com", 
-            363962915L
+    @BeforeEach
+    public void init() {
+
+        procedureRepository.deleteAll();
+        user = new User(
+            (int) (Math.random() * 1_000_000_000),
+            "Paco",
+            "paco" + System.currentTimeMillis() + "@gmail.com",
+            "paco123",
+            System.currentTimeMillis() 
         );
+        user = userRepository.save(user);
+
+        veterinary = new Veterinary(
+            "Veterinary",
+            "Cardiología",
+            "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
+            (int) (Math.random() * 1_000_000_000), 
+            "Dra. María López",
+            "maria" + System.currentTimeMillis() + "@tabbies.com",
+            System.currentTimeMillis()
+        );
+        veterinary = veterinaryRepository.save(veterinary);
+
         pet = new Pet(
-            "Emilio", 
-            "Esfinge", 
-            LocalDate.of(2000, 1, 1), 
-            4.2f, 
-            "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1", 
-            user, 
+            "Emilio",
+            "Esfinge",
+            LocalDate.of(2000, 1, 1),
+            4.2f,
+            "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1",
+            user,
             false
         );
+        pet = petRepository.save(pet);
+
         medicine = new Medicine("Paracetamol", 10.0, 5.0, 100, 500);
-
-        Procedure procedure = new Procedure(123456789L, 1, "Resfriado", pet, medicine, veterinary);
-        Procedure procedure2 = new Procedure(123456782L, 2, "Intoxicación", pet, medicine, veterinary);
-
-        
-
-
+        medicine = medicineRepository.save(medicine);
     }
 
+    @Test
+    public void ProcedureService_CreateProcedure_Procedure() {
+        Procedure procedure = new Procedure(3, "Resfriado", pet, medicine, veterinary);
 
+        procedureService.createProcedure(procedure);
 
-   
+        Collection<Procedure> procedures = procedureService.getAllProcedures();
+        Assertions.assertThat(procedures).isNotEmpty();
+        Assertions.assertThat(procedures).anyMatch(p -> p.getNotes().equals("Resfriado"));
+    }
+
+    @Test
+    public void ProcedureService_findAll_ProcedureList(){
+        Procedure procedure = new Procedure(3, "Chequeo", pet, medicine, veterinary);
+        procedureService.createProcedure(procedure);
+    
+        List<Procedure> procedures = new ArrayList<>(procedureService.getAllProcedures());
+    
+        Assertions.assertThat(procedures).isNotEmpty();
+        Assertions.assertThat(procedures).hasSize(1);
+    }
+    
+    
+
+    @Test
+    public void ProcedureService_getProcedureById_returnsProcedure() {
+        Procedure procedure = new Procedure(null, 2, "Vacunación", pet, medicine, veterinary);
+        procedureService.createProcedure(procedure);
+
+        Procedure fetched = procedureService.getProcedureById(procedure.getId());
+
+        Assertions.assertThat(fetched).isNotNull();
+        Assertions.assertThat(fetched.getPet().getName()).isEqualTo("Emilio");
+    }
+
+    @Test
+    public void ProcedureService_updateProcedure_updateProcedure() {
+
+        Procedure original = new Procedure(null, 2, "Vacunación", pet, medicine, veterinary);
+        procedureService.createProcedure(original);
+
+        Procedure updated = new Procedure(null, 5, "Chequeo general", pet, medicine, veterinary);
+        procedureService.updateProcedure(original.getId(), updated);
+
+        Procedure fetched = procedureService.getProcedureById(original.getId());
+
+        Assertions.assertThat(fetched).isNotNull();
+    }
+
 }

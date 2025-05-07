@@ -28,6 +28,7 @@ public class ProcedureServiceImpl implements ProcedureService{
         return procedureRepository.findAll();
     }
 
+    
     @Override
     public Procedure getProcedureById(Long id) {
         return procedureRepository.findById(id)
