@@ -1,16 +1,18 @@
 package dev.downloadablefox.tabbies.webserver.config.service;
 
+import static org.mockito.Mockito.*;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
@@ -22,27 +24,26 @@ import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
-import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureService;
+import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureServiceImpl;
 
-@SpringBootTest
-@Transactional
-public class ProcedureServiceTest {
-    @Autowired
-    private ProcedureService procedureService;
+@ExtendWith(MockitoExtension.class)
+public class ProcedureServiceTestMock {
+    @InjectMocks
+    private ProcedureServiceImpl procedureService;
 
-    @Autowired
+    @Mock
     private ProcedureRepository procedureRepository;
 
-    @Autowired
+    @Mock
     private UserRepository userRepository;
 
-    @Autowired
+    @Mock
     private VeterinaryRepository veterinaryRepository;
 
-    @Autowired
+    @Mock
     private PetRepository petRepository;
 
-    @Autowired
+    @Mock
     private MedicineRepository medicineRepository;
 
     private User user;
@@ -52,7 +53,6 @@ public class ProcedureServiceTest {
 
     @BeforeEach
     public void init() {
-        procedureRepository.deleteAll();
         user = new User(
             (int) (Math.random() * 1_000_000_000),
             "Paco",
@@ -60,7 +60,6 @@ public class ProcedureServiceTest {
             "paco123",
             System.currentTimeMillis() 
         );
-        user = userRepository.save(user);
 
         veterinary = new Veterinary(
             "Veterinary",
@@ -72,7 +71,6 @@ public class ProcedureServiceTest {
             System.currentTimeMillis()
         );
 
-        veterinary = veterinaryRepository.save(veterinary);
 
         pet = new Pet(
             "Emilio",
@@ -83,58 +81,71 @@ public class ProcedureServiceTest {
             user,
             false
         );
-        pet = petRepository.save(pet);
-
+        
         medicine = new Medicine("Paracetamol", 10.0, 5.0, 100, 500);
-        medicine = medicineRepository.save(medicine);
     }
 
     @Test
     public void ProcedureService_CreateProcedure_Procedure() {
         Procedure procedure = new Procedure(3, "Resfriado", pet, medicine, veterinary);
+        when(procedureRepository.save(any(Procedure.class))).thenReturn(procedure);
 
         procedureService.createProcedure(procedure);
 
-        Collection<Procedure> procedures = procedureService.getAllProcedures();
+        verify(procedureRepository, times(1)).save(procedure);
+        when(procedureRepository.findAll()).thenReturn(List.of(procedure));
+
+        List<Procedure> procedures = (List<Procedure>) procedureService.getAllProcedures();
+
         Assertions.assertThat(procedures).isNotEmpty();
         Assertions.assertThat(procedures).anyMatch(p -> p.getNotes().equals("Resfriado"));
     }
 
     @Test
-    public void ProcedureService_findAll_ProcedureList(){
-        Procedure procedure = new Procedure(3, "Chequeo", pet, medicine, veterinary);
-        procedureService.createProcedure(procedure);
-    
-        List<Procedure> procedures = new ArrayList<>(procedureService.getAllProcedures());
-    
-        Assertions.assertThat(procedures).isNotEmpty();
-        Assertions.assertThat(procedures).hasSize(1);
+    public void ProcedureService_findAll_ProcedureList() {
+        when(procedureRepository.findAll()).thenReturn(List.of(
+            new Procedure(3, "Chequeo", pet, medicine, veterinary)
+        ));
+
+        List<Procedure> procedures = (List<Procedure>) procedureService.getAllProcedures(); // Avoid unnecessary casting
+
+        Assertions.assertThat(procedures)
+                  .isNotEmpty()
+                  .hasSize(1)
+                  .anyMatch(p -> p.getNotes().equals("Chequeo")); // Chain assertions for readability
     }
-    
-    
 
     @Test
     public void ProcedureService_getProcedureById_returnsProcedure() {
-        Procedure procedure = new Procedure(null, 2, "Vacunación", pet, medicine, veterinary);
-        procedureService.createProcedure(procedure);
+        Procedure procedure = new Procedure(1, "Vacunación", pet, medicine, veterinary);
+        when(procedureRepository.findById(procedure.getId())).thenReturn(java.util.Optional.of(procedure));
 
         Procedure fetched = procedureService.getProcedureById(procedure.getId());
 
         Assertions.assertThat(fetched).isNotNull();
+        Assertions.assertThat(fetched.getNotes()).isEqualTo("Vacunación");
         Assertions.assertThat(fetched.getPet().getName()).isEqualTo("Emilio");
+
+        verify(procedureRepository, times(1)).findById(procedure.getId());
     }
 
     @Test
     public void ProcedureService_updateProcedure_updateProcedure() {
+        Procedure original = new Procedure(1, "Vacunación", pet, medicine, veterinary);
+        Procedure updated = new Procedure(1, "Chequeo general", pet, medicine, veterinary);
 
-        Procedure original = new Procedure(null, 2, "Vacunación", pet, medicine, veterinary);
-        procedureService.createProcedure(original);
+        when(procedureRepository.existsById(original.getId())).thenReturn(true);
+        when(procedureRepository.findById(original.getId())).thenReturn(Optional.of(updated));
+        when(procedureRepository.save(any(Procedure.class))).thenReturn(updated);
 
-        Procedure updated = new Procedure(null, 5, "Chequeo general", pet, medicine, veterinary);
         procedureService.updateProcedure(original.getId(), updated);
+
+        verify(procedureRepository, times(1)).existsById(original.getId());
+        verify(procedureRepository, times(1)).save(updated);
 
         Procedure fetched = procedureService.getProcedureById(original.getId());
 
         Assertions.assertThat(fetched).isNotNull();
+        Assertions.assertThat(fetched.getNotes()).isEqualTo("Chequeo general");
     }
 }
