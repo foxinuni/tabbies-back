@@ -128,7 +128,7 @@ public class VetCaseTest {
         inputWeight.sendKeys(Keys.BACK_SPACE);
         inputWeight.sendKeys("hola");  // error
 
-        inputDate.sendKeys(LocalDate.parse("2022-12-19").toString());
+        inputDate.sendKeys("19122022");
         inputPicture.sendKeys("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ2eFBnx0wwcyGIS4PcXFYa2iHlrtnd03zOsYZL8NTk4BWZnzo8VKN17XUEl35qyC7Ld6O1K8bJGtcDD5ohoVLDDw");
         inputOwner.sendKeys(newUserName);
 
