@@ -69,10 +69,18 @@ public class DatabaseInit implements ApplicationRunner {
 
             String email = String.format("%s%d@email.com", prefix, i);
 
-            final User user = new User(documento, nombre, email, hash, numero);
+            final User user = User.builder()
+                .document(documento)
+                .name(nombre)
+                .email(email)
+                .hash(hash)
+                .number(numero)
+                .build();
+
             users.add(userRepository.save(user));
         }
     }
+
 
     private void generatePets(List<Pet> pets, List<User> users) {
         final String[] petNames = {"Bella", "Charlie", "Max", "Luna", "Rocky", "Milo", "Lucy", "Daisy", "Bailey", "Oliver",

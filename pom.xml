@@ -128,6 +128,11 @@
 			<version>5.4.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 
 	</dependencies>
@@ -140,4 +145,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
 </project>

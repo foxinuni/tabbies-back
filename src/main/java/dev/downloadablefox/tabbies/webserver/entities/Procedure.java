@@ -7,7 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class Procedure {
     @Id
@@ -31,8 +35,6 @@ public class Procedure {
     @ManyToOne
     @JoinColumn(name = "veterinary_id", nullable = false)
     private Veterinary veterinary;
-
-    public Procedure() {}
     
     public Procedure(Long id, Integer quantity, String notes, Pet pet, Medicine medicine, Veterinary veterinary) {
         this.id = id;
@@ -48,54 +50,6 @@ public class Procedure {
         this.notes = notes;
         this.pet = pet;
         this.medicine = medicine;
-        this.veterinary = veterinary;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }  
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public Medicine getMedicine() {
-        return medicine;
-    }
-    
-    public void setMedicine(Medicine medicine) {
-        this.medicine = medicine;
-    }
-    
-    public Veterinary getVeterinary() {
-        return veterinary;
-    }
-
-    public void setVeterinary(Veterinary veterinary) {
         this.veterinary = veterinary;
     }
 }

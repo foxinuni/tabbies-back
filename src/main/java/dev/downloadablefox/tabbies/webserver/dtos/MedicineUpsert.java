@@ -1,5 +1,8 @@
 package dev.downloadablefox.tabbies.webserver.dtos;
 
+import lombok.Data;
+
+@Data
 public class MedicineUpsert {
     private String name;
     private Double buyPrice;
@@ -13,26 +16,6 @@ public class MedicineUpsert {
         this.sellPrice = sellPrice;
         this.stock = stock;
         this.sold = sold;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getBuyPrice() {
-        return buyPrice;
-    }
-
-    public Double getSellPrice() {
-        return sellPrice;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public Integer getSold() {
-        return sold;
     }
 
     @Override
