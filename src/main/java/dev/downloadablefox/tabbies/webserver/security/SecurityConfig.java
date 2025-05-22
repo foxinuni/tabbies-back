@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -26,8 +28,20 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(options -> options.disable()))
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/h2/**").permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/v1/users/**").authenticated() 
+
+                // Auth endpoints
+                .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/logout").permitAll()
+                .requestMatchers("/auth/self").authenticated()
+                
+                // General endpoints
+                .requestMatchers("/medicines/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                .requestMatchers("/my-pets/**").authenticated()
+                .requestMatchers("/pets/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                .requestMatchers("/procedures/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                .requestMatchers("/users/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                .requestMatchers("/veterinarians/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                
                 .anyRequest().denyAll()
             )
             .exceptionHandling(exception -> exception
