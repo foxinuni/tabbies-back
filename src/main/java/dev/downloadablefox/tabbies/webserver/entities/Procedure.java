@@ -7,10 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import lombok.Data;
+import lombok.Setter;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Procedure {
@@ -52,4 +54,9 @@ public class Procedure {
         this.medicine = medicine;
         this.veterinary = veterinary;
     }
+
+    public Pet getPet() {
+        return this.pet;
+    }
+
 }

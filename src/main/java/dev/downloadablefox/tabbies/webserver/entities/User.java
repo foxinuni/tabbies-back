@@ -20,6 +20,7 @@ import lombok.Builder;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "Users")
 public class User {
@@ -45,8 +46,7 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 
-    // Builder personalizado para solo los campos que necesitas (sin id ni pets)
-    @Builder
+
     public User(int document, String name, String email, String hash, Long number) {
         this.document = document;
         this.name = name;
