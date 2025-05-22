@@ -73,7 +73,7 @@ public class ModelMapperImpl implements ModelMapper {
 
     @Override
     public VeterinarianView toVeterinaryDTO(Veterinary veterinary) {
-        return new VeterinarianView(veterinary.getId(), veterinary.getEmail(), veterinary.getHash(), veterinary.getRole().getName(), veterinary.getName(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getSpeciality(), veterinary.getPicture());
+        return new VeterinarianView(veterinary.getId(), veterinary.getEmail(), veterinary.getRole().getName(), veterinary.getName(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getSpeciality(), veterinary.getPicture());
     }
 
     @Override
