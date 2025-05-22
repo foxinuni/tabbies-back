@@ -1,5 +1,7 @@
 package dev.downloadablefox.tabbies.webserver.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 
@@ -35,13 +38,13 @@ public class SecurityConfig {
                 .requestMatchers("/auth/self").authenticated()
                 
                 // General endpoints
-                .requestMatchers("/medicines/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+                .requestMatchers("/users/**").authenticated()
                 .requestMatchers("/my-pets/**").authenticated()
                 .requestMatchers("/pets/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
                 .requestMatchers("/procedures/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
-                .requestMatchers("/users/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
                 .requestMatchers("/veterinarians/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
-                
+                .requestMatchers("/medicines/**").hasAnyAuthority(RoleType.VETERINARY.getRole().getName(), RoleType.ADMIN.getRole().getName())
+
                 .anyRequest().denyAll()
             )
             .exceptionHandling(exception -> exception
@@ -49,6 +52,18 @@ public class SecurityConfig {
             );
         
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.cors(cors -> cors
+            .configurationSource(request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.addAllowedOriginPattern("http://localhost:*");
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.addAllowedHeader("*");
+                config.setAllowCredentials(true);
+                config.setMaxAge(3600L);
+                return config;
+            })
+        );
         
         return http.build();
     }

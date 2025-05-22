@@ -60,7 +60,7 @@ public class AuthController {
         return new ResponseEntity<String>("Login successful", HttpStatus.OK);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) {
         // 1. Invalidate the JWT token
         SecurityContextHolder.clearContext();
