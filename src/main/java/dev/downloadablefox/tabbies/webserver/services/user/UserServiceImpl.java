@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public User getUserByEmail(String name) {
+        return userRepository.findByEmail(name)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + name));
+    }
 }

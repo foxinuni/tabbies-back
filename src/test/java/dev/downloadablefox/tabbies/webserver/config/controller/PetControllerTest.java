@@ -2,7 +2,6 @@ package dev.downloadablefox.tabbies.webserver.config.controller;
 
 import java.time.LocalDate;
 
-import org.apache.xmlbeans.UserType;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -47,15 +46,19 @@ public class PetControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @SuppressWarnings("removal")
     @MockBean
     private PetService petService;
 
+    @SuppressWarnings("removal")
     @MockBean
     private ModelMapper modelMapper;
 
+    @SuppressWarnings("removal")
     @MockBean
     private UserRepository userRepository;
 
+    @SuppressWarnings("removal")
     @MockBean
     private VeterinaryRepository veterinaryRepository; // Mockea cualquier dependencia adicional
 

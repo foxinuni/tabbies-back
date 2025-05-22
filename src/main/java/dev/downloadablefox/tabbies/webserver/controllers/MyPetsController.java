@@ -2,11 +2,10 @@ package dev.downloadablefox.tabbies.webserver.controllers;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dev.downloadablefox.tabbies.webserver.dtos.PetView;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.User;
-import dev.downloadablefox.tabbies.webserver.services.auth.AuthService;
 import dev.downloadablefox.tabbies.webserver.services.common.ModelMapper;
 import dev.downloadablefox.tabbies.webserver.services.pets.PetService;
+import dev.downloadablefox.tabbies.webserver.services.user.UserService;
 
 @Controller
 @RequestMapping("/my-pets")
 public class MyPetsController {
     @Autowired
-    private AuthService authService;
-
+    private UserService userService;
+    
     @Autowired
     private PetService petService;
 
@@ -33,18 +32,13 @@ public class MyPetsController {
 
     @GetMapping("/")
     @ResponseBody
-    public Collection<PetView> myPets(@CookieValue("session") Optional<String> session) {
-        if (!session.isPresent()) {
-            throw new RuntimeException("User is not authenticated");
-        }
-
-        final Optional<User> user = authService.validate(session.get());
-        if (!user.isPresent()) {
-            throw new RuntimeException("Invalid session");
-        }
+    public Collection<PetView> myPets() {
+        final User user = userService.getUserByEmail(
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        );
 
         List<PetView> pets = petService.getAllPets().stream()
-            .filter(pet -> pet.getOwner().getId().equals(user.get().getId()))
+            .filter(pet -> pet.getOwner().getId().equals(user.getId()))
             .map(pet -> modelMapper.toPetDTO(pet))
             .toList();
 
@@ -53,18 +47,13 @@ public class MyPetsController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public PetView getPetById(@CookieValue("session") Optional<String> session, @PathVariable Long id) {
-        if (!session.isPresent()) {
-            throw new RuntimeException("User is not authenticated");
-        }
-
-        final Optional<User> user = authService.validate(session.get());
-        if (!user.isPresent()) {
-            throw new RuntimeException("Invalid session");
-        }
+    public PetView getPetById(@PathVariable Long id) {
+        final User user = userService.getUserByEmail(
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        );
 
         final Pet pet = petService.getPetById(id);
-        if (pet == null || !pet.getOwner().getId().equals(user.get().getId())) {
+        if (pet == null || !pet.getOwner().getId().equals(user.getId())) {
             throw new RuntimeException("Pet not found or does not belong to user");
         }
 

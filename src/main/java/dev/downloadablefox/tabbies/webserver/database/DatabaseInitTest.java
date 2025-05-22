@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.entities;
+package dev.downloadablefox.tabbies.webserver.database;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -9,8 +9,16 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import dev.downloadablefox.tabbies.webserver.entities.Medicine;
+import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
+import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
@@ -22,7 +30,8 @@ import jakarta.transaction.Transactional;
 
 @Component
 @Transactional
-public class DatabaseInit implements ApplicationRunner {
+@Profile("test")
+public class DatabaseInitTest implements ApplicationRunner {
     Random random = new Random();
 
     @Autowired
@@ -75,19 +84,10 @@ public class DatabaseInit implements ApplicationRunner {
 
             String email = String.format("%s%d@email.com", prefix, i);
 
-            final User user = User.builder()
-                .document(documento)
-                .name(nombre)
-                .email(email)
-                .hash(hash)
-                .role(userRole)
-                .number(numero)
-                .build();
-
+            final User user = new User(email, hash, userRole, documento, nombre, numero);
             users.add(userRepository.save(user));
         }
     }
-
 
     private void generatePets(List<Pet> pets, List<User> users) {
         final String[] petNames = {"Bella", "Charlie", "Max", "Luna", "Rocky", "Milo", "Lucy", "Daisy", "Bailey", "Oliver",
@@ -212,11 +212,12 @@ public class DatabaseInit implements ApplicationRunner {
         final Role adminRole = roleService.getRoleByType(RoleType.ADMIN);
         final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
         
+
         // Base users for testing
         User emilio = userRepository.save(new User("emilio@gmail.com", "emilio", userRole, 123456789, "Emilio", 3206214141L));
         User alfredo = userRepository.save(new User("alfredo@gmail.com", "alfredo", userRole, 987654321, "Alfredo", 321623232L));
         User miguel = userRepository.save(new User("miguel@hotmail.com", "miguel", userRole, 345234214, "Miguel", 313231321L));
-        
+
         // Base pets for testing
         petRepository.save(new Pet("Emilio", "Esfinge", LocalDate.of(2017, 2, 26), 4.2f, "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1", emilio, false));
         petRepository.save(new Pet("Alpacino", "Siames", LocalDate.of(2019, 4, 20), 4.2f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzkmFUIlGYeJWHDlVQXoZEHmLTnz6BcbErmw&s", emilio, false));

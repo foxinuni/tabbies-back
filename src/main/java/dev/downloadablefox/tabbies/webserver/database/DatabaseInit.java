@@ -1,4 +1,4 @@
-package dev.downloadablefox.tabbies.webserver.entities;
+package dev.downloadablefox.tabbies.webserver.database;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -9,9 +9,16 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import dev.downloadablefox.tabbies.webserver.entities.Medicine;
+import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
+import dev.downloadablefox.tabbies.webserver.entities.User;
+import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
@@ -23,8 +30,7 @@ import jakarta.transaction.Transactional;
 
 @Component
 @Transactional
-@Profile("test")
-public class DatabaseInitTest implements ApplicationRunner {
+public class DatabaseInit implements ApplicationRunner {
     Random random = new Random();
 
     @Autowired
@@ -48,6 +54,9 @@ public class DatabaseInitTest implements ApplicationRunner {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     private void generateUsers(List<User> users) {
         final Role userRole = roleService.getRoleByType(RoleType.USER);
 
@@ -61,7 +70,7 @@ public class DatabaseInitTest implements ApplicationRunner {
 
         for (int i = 0; i < 50; i++) {
             String nombre = nombres[i % nombres.length];
-            String hash = nombres[i % nombres.length].toLowerCase();
+            String password = nombres[i % nombres.length].toLowerCase();
             int documento = 100000000 + random.nextInt(900000000);
             long numero = 3000000000L + random.nextInt(1000000000);
 
@@ -77,10 +86,19 @@ public class DatabaseInitTest implements ApplicationRunner {
 
             String email = String.format("%s%d@email.com", prefix, i);
 
-            final User user = new User(email, hash, userRole, documento, nombre, numero);
+            final User user = User.builder()
+                .document(documento)
+                .name(nombre)
+                .email(email)
+                .hash(passwordEncoder.encode(password))
+                .role(userRole)
+                .number(numero)
+                .build();
+
             users.add(userRepository.save(user));
         }
     }
+
 
     private void generatePets(List<Pet> pets, List<User> users) {
         final String[] petNames = {"Bella", "Charlie", "Max", "Luna", "Rocky", "Milo", "Lucy", "Daisy", "Bailey", "Oliver",
@@ -152,7 +170,7 @@ public class DatabaseInitTest implements ApplicationRunner {
                                 .replaceAll("[^a-z ]", "") // Remove non-alphabetic characters
                                 .replace(" ", "-") + "@tabbies.com";  // Email formatted as name-surname@tabbies.com
 
-            final Veterinary veterinary = new Veterinary(email, "generado", veterinaryRole, specialty, picture, document, name, number);
+            final Veterinary veterinary = new Veterinary(email, passwordEncoder.encode("vet"), veterinaryRole, specialty, picture, document, name, number);
             veterinarians.add(veterinaryRepository.save(veterinary));
         }
     }
@@ -205,12 +223,11 @@ public class DatabaseInitTest implements ApplicationRunner {
         final Role adminRole = roleService.getRoleByType(RoleType.ADMIN);
         final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
         
-
         // Base users for testing
-        User emilio = userRepository.save(new User("emilio@gmail.com", "emilio", userRole, 123456789, "Emilio", 3206214141L));
-        User alfredo = userRepository.save(new User("alfredo@gmail.com", "alfredo", userRole, 987654321, "Alfredo", 321623232L));
-        User miguel = userRepository.save(new User("miguel@hotmail.com", "miguel", userRole, 345234214, "Miguel", 313231321L));
-
+        User emilio = userRepository.save(new User("emilio@gmail.com", passwordEncoder.encode("emilio"), userRole, 123456789, "Emilio", 3206214141L));
+        User alfredo = userRepository.save(new User("alfredo@gmail.com", passwordEncoder.encode("alfredo"), userRole, 987654321, "Alfredo", 321623232L));
+        User miguel = userRepository.save(new User("miguel@hotmail.com", passwordEncoder.encode("miguel"), userRole, 345234214, "Miguel", 313231321L));
+        
         // Base pets for testing
         petRepository.save(new Pet("Emilio", "Esfinge", LocalDate.of(2017, 2, 26), 4.2f, "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1", emilio, false));
         petRepository.save(new Pet("Alpacino", "Siames", LocalDate.of(2019, 4, 20), 4.2f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzkmFUIlGYeJWHDlVQXoZEHmLTnz6BcbErmw&s", emilio, false));
@@ -220,8 +237,8 @@ public class DatabaseInitTest implements ApplicationRunner {
         petRepository.save(new Pet("Simba", "Bengal", LocalDate.of(2020, 7, 22), 4.3f, "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", miguel, false));
         
         // Base veterinarians for testing
-        veterinarians.add(veterinaryRepository.save(new Veterinary("admin@tabbies.com", "admin", adminRole, "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", 3206214141L)));
-        veterinarians.add(veterinaryRepository.save(new Veterinary("vet@tabbies.com", "vet", veterinaryRole, "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", 321623232L)));
+        veterinarians.add(veterinaryRepository.save(new Veterinary("admin@tabbies.com", passwordEncoder.encode("admin"), adminRole, "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", 3206214141L)));
+        veterinarians.add(veterinaryRepository.save(new Veterinary("vet@tabbies.com", passwordEncoder.encode("vet"), veterinaryRole, "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", 321623232L)));
         
         generateUsers(users); // Generate users with random data
         generatePets(pets, users); // Generate pets with random data
