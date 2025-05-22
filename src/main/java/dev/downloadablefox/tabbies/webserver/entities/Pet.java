@@ -66,5 +66,9 @@ public class Pet {
         this.isDisabled = isDisabled;
         this.disease = disease;
     }
+    public Long getId() {
+        return this.id;
+    }
+
 
 }
