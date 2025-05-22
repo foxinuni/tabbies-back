@@ -6,38 +6,24 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Builder;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "Users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "users")
+public class User extends UserEntity {
     @Column(nullable = false, unique = true)
     private int document;
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String hash;
 
     @Column(nullable = false, unique = true)
     private Long number;
@@ -47,21 +33,19 @@ public class User {
 
     // Builder personalizado para solo los campos que necesitas (sin id ni pets)
     @Builder
-    public User(int document, String name, String email, String hash, Long number) {
+    public User(String email, String hash, Role role, int document, String name, Long number) {
+        super(email, hash, role);
+
         this.document = document;
         this.name = name;
-        this.email = email;
-        this.hash = hash;
         this.number = number;
     }
 
-    public User(Long id, int document, String name, String email, String hash, Long number) {
-        this.id = id;
+    public User(Long id, String email, String hash, Role role, int document, String name, Long number) {
+        super(id, email, hash, role);
+
         this.document = document;
         this.name = name;
-        this.email = email;
-        this.hash = hash;
         this.number = number;
     }
-
 }

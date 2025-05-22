@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
-
+public interface UserRepository extends JpaRepository<User, Long> {
+    
 }

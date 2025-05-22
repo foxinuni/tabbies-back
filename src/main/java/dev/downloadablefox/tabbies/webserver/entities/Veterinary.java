@@ -2,24 +2,17 @@ package dev.downloadablefox.tabbies.webserver.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
 @Entity
-public class Veterinary{
-    @Id
-    @GeneratedValue
-    private Long id;
-    
+@Getter
+@Setter
+@NoArgsConstructor
+public class Veterinary extends UserEntity {
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true)
-    private String email;
 
     @Column(nullable = false, unique = true)
     private Integer document;
@@ -28,22 +21,29 @@ public class Veterinary{
     private Long number;
 
     @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
     private String speciality;
 
     @Column(nullable = false)
     private String picture;
 
-    public Veterinary(String role, String speciality, String picture, Integer document, String name, String email,
-            Long number) {
-        this.role = role;
+    public Veterinary(String email, String hash, Role role, String speciality, String picture, Integer document, String name, Long number) {
+        super(email, hash, role);
+
         this.speciality = speciality;
         this.picture = picture;
         this.document = document;
         this.name = name;
         this.email = email;
+        this.number = number;
+    }
+
+    public Veterinary(Long id, String email, String hash, Role role, String speciality, String picture, Integer document, String name, Long number) {
+        super(id, email, hash, role);
+
+        this.speciality = speciality;
+        this.picture = picture;
+        this.document = document;
+        this.name = name;
         this.number = number;
     }
 }

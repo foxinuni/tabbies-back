@@ -3,6 +3,7 @@ package dev.downloadablefox.tabbies.webserver.dtos;
 public class VeterinarianUpsert {
     private String name;
     private String email;
+    private String password;
     private Integer document;
     private Long number;
     private String role;
@@ -11,12 +12,13 @@ public class VeterinarianUpsert {
 
     public VeterinarianUpsert() {}
 
-    public VeterinarianUpsert(String name, String email, Integer document, Long number, String role, String speciality, String picture) {
-        this.name = name;
+    public VeterinarianUpsert(String email, String password, String role, String name, Integer document, Long number, String speciality, String picture) {
         this.email = email;
+        this.password = password;
+        this.role = role;
+        this.name = name;
         this.document = document;
         this.number = number;
-        this.role = role;
         this.speciality = speciality;
         this.picture = picture;
     }
@@ -75,5 +77,9 @@ public class VeterinarianUpsert {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

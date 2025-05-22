@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
@@ -53,24 +55,28 @@ public class ProcedureServiceTestMock {
 
     @BeforeEach
     public void init() {
+        final Role userRole = RoleType.USER.getRole();
+        final Role vetRole = RoleType.VETERINARY.getRole();
+
         user = new User(
-            (int) (Math.random() * 1_000_000_000),
-            "Paco",
             "paco" + System.currentTimeMillis() + "@gmail.com",
             "paco123",
+            userRole,
+            (int) (Math.random() * 1_000_000_000),
+            "Paco",
             System.currentTimeMillis() 
         );
 
         veterinary = new Veterinary(
-            "Veterinary",
+            "maria" + System.currentTimeMillis() + "@tabbies.com",
+            "maria123",
+            vetRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
             (int) (Math.random() * 1_000_000_000), 
             "Dra. María López",
-            "maria" + System.currentTimeMillis() + "@tabbies.com",
             System.currentTimeMillis()
         );
-
 
         pet = new Pet(
             "Emilio",

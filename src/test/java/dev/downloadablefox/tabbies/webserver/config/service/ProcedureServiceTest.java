@@ -15,11 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.MedicineRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.PetRepository;
-import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
 import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureService;
@@ -29,9 +30,6 @@ import dev.downloadablefox.tabbies.webserver.services.procedure.ProcedureService
 public class ProcedureServiceTest {
     @Autowired
     private ProcedureService procedureService;
-
-    @Autowired
-    private ProcedureRepository procedureRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -52,26 +50,29 @@ public class ProcedureServiceTest {
 
     @BeforeEach
     public void init() {
-        procedureRepository.deleteAll();
+        final Role userRole = RoleType.USER.getRole();
+        final Role vetRole = RoleType.VETERINARY.getRole();
+
         user = new User(
-            (int) (Math.random() * 1_000_000_000),
-            "Paco",
             "paco" + System.currentTimeMillis() + "@gmail.com",
             "paco123",
+            userRole,
+            (int) (Math.random() * 1_000_000_000),
+            "Paco",
             System.currentTimeMillis() 
         );
         user = userRepository.save(user);
 
         veterinary = new Veterinary(
-            "Veterinary",
+            "maria" + System.currentTimeMillis() + "@tabbies.com",
+            "maria123",
+            vetRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
             (int) (Math.random() * 1_000_000_000), 
             "Dra. María López",
-            "maria" + System.currentTimeMillis() + "@tabbies.com",
             System.currentTimeMillis()
         );
-
         veterinary = veterinaryRepository.save(veterinary);
 
         pet = new Pet(

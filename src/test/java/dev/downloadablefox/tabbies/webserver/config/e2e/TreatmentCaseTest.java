@@ -12,18 +12,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class TreatmentCaseTest {
-    
     private WebDriver driver;
     private WebDriverWait wait;
-
 
     @BeforeEach
     public void init() {
@@ -36,7 +31,6 @@ public class TreatmentCaseTest {
 
         this.driver = new ChromeDriver(options);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
     }
 
     @Test
@@ -121,17 +115,6 @@ public class TreatmentCaseTest {
 
         String tratamientos = driver.findElement(By.xpath("/html/body/app-root/app-admin/panel/section/main/dashboard/section/div[1]/div/div[4]/p")).getText();
 
-        assert ganancias > 0 && Integer.parseInt(tratamientos) > 10 : "Las ganancias deberían ser mayores a 0, pero fueron: " + ganancias + " y los tratamientos: " + tratamientos;
-        
-
-
-        
-        
+        assert ganancias > 0 && Integer.parseInt(tratamientos) > 10 : "Las ganancias deberían ser mayores a 0, pero fueron: " + ganancias + " y los tratamientos: " + tratamientos;        
     }
-
-
-
-
-       
-
 }

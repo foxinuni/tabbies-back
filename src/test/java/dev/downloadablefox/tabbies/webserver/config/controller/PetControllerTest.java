@@ -2,6 +2,7 @@ package dev.downloadablefox.tabbies.webserver.config.controller;
 
 import java.time.LocalDate;
 
+import org.apache.xmlbeans.UserType;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -18,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dev.downloadablefox.tabbies.webserver.controllers.PetController;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
@@ -38,7 +41,6 @@ import dev.downloadablefox.tabbies.webserver.services.pets.PetService;
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class})
 public class PetControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -60,7 +62,8 @@ public class PetControllerTest {
     @Test
     public void testCreatePet() throws Exception {
         // Crear un usuario mock
-        User alfredo = new User(987654321, "Alfredo", "alfredo@gmail.com", "alfredo", 321623232L);
+        Role role = RoleType.USER.getRole();
+        User alfredo = new User("alfredo@gmail.com", "alfredo", role, 987654321, "Alfredo", 321623232L);
         when(userRepository.save(alfredo)).thenReturn(alfredo);
 
         // Crear una mascota mock

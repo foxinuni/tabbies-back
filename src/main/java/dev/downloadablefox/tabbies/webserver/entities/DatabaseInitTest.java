@@ -18,6 +18,7 @@ import dev.downloadablefox.tabbies.webserver.repositories.ProcedureRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.UserRepository;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
 import dev.downloadablefox.tabbies.webserver.services.medicine.MedicineExcelService;
+import dev.downloadablefox.tabbies.webserver.services.roles.RoleService;
 import jakarta.transaction.Transactional;
 
 @Component
@@ -44,7 +45,12 @@ public class DatabaseInitTest implements ApplicationRunner {
     @Autowired
     MedicineExcelService medicineExcelService;
 
+    @Autowired
+    RoleService roleService;
+
     private void generateUsers(List<User> users) {
+        final Role userRole = roleService.getRoleByType(RoleType.USER);
+
         final String[] nombres = {
             "Augusto", "Carlos", "Lucía", "Marta", "Andrés", "Sofía", "Javier", "Ana", "Roberto", "Elena",
             "Fernando", "Gabriela", "Diego", "Patricia", "Luis", "Camila", "Daniel", "Isabel", "Manuel", "Valeria",
@@ -71,7 +77,7 @@ public class DatabaseInitTest implements ApplicationRunner {
 
             String email = String.format("%s%d@email.com", prefix, i);
 
-            final User user = new User(documento, nombre, email, hash, numero);
+            final User user = new User(email, hash, userRole, documento, nombre, numero);
             users.add(userRepository.save(user));
         }
     }
@@ -108,6 +114,8 @@ public class DatabaseInitTest implements ApplicationRunner {
     }
 
     private void generateVets(List<Veterinary> veterinarians) {
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
+
         final String[] veterinaryNames = {
             "Dr. Juan Pérez", "Dra. María López", "Dr. Carlos Martínez", "Dra. Laura Gómez",
             "Dr. Andrés Herrera", "Dra. Camila Torres", "Dr. Fernando Ríos", "Dra. Valentina Suárez",
@@ -130,8 +138,6 @@ public class DatabaseInitTest implements ApplicationRunner {
             String name = veterinaryNames[i % veterinaryNames.length];
             String specialty = specialties[i % specialties.length];
             String picture = veterinaryImages[i % veterinaryImages.length];
-            String role = "Veterinary";
-
 
             Long number = 310000000L + random.nextInt(90000000);
             Integer document = 200000000 + random.nextInt(800000000);
@@ -146,7 +152,7 @@ public class DatabaseInitTest implements ApplicationRunner {
                                 .replaceAll("[^a-z ]", "") // Remove non-alphabetic characters
                                 .replace(" ", "-") + "@tabbies.com";  // Email formatted as name-surname@tabbies.com
 
-            final Veterinary veterinary = new Veterinary(role, specialty, picture, document, name, email, number);
+            final Veterinary veterinary = new Veterinary(email, "generado", veterinaryRole, specialty, picture, document, name, number);
             veterinarians.add(veterinaryRepository.save(veterinary));
         }
     }
@@ -190,10 +196,20 @@ public class DatabaseInitTest implements ApplicationRunner {
         final List<Procedure> procedures = new ArrayList<>();
         final List<Medicine> medicines = new ArrayList<>();
 
+        // Generate basic roles
+        roleService.createRole(RoleType.USER.getRole());
+        roleService.createRole(RoleType.VETERINARY.getRole());
+        roleService.createRole(RoleType.ADMIN.getRole());
+
+        final Role userRole = roleService.getRoleByType(RoleType.USER);
+        final Role adminRole = roleService.getRoleByType(RoleType.ADMIN);
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
+        
+
         // Base users for testing
-        User emilio = userRepository.save(new User(123456789, "Emilio", "emilio@gmail.com", "emilio", 3206214141L));
-        User alfredo = userRepository.save(new User(987654321, "Alfredo", "alfredo@gmail.com", "alfredo", 321623232L));
-        User miguel = userRepository.save(new User(345234214, "Miguel", "miguel@hotmail.com", "miguel", 313231321L));
+        User emilio = userRepository.save(new User("emilio@gmail.com", "emilio", userRole, 123456789, "Emilio", 3206214141L));
+        User alfredo = userRepository.save(new User("alfredo@gmail.com", "alfredo", userRole, 987654321, "Alfredo", 321623232L));
+        User miguel = userRepository.save(new User("miguel@hotmail.com", "miguel", userRole, 345234214, "Miguel", 313231321L));
 
         // Base pets for testing
         petRepository.save(new Pet("Emilio", "Esfinge", LocalDate.of(2017, 2, 26), 4.2f, "https://i2.wp.com/enelveterinario.com/wp-content/uploads/2021/09/post_gato_esfinge.jpg?ssl=1", emilio, false));
@@ -204,8 +220,9 @@ public class DatabaseInitTest implements ApplicationRunner {
         petRepository.save(new Pet("Simba", "Bengal", LocalDate.of(2020, 7, 22), 4.3f, "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", miguel, false));
         
         // Base veterinarians for testing
-        veterinarians.add(veterinaryRepository.save(new Veterinary("Admin", "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", "admin@tabbies.com", 3206214141L)));
-        veterinarians.add(veterinaryRepository.save(new Veterinary("Veterinary", "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", "vet@tabbies.com", 321623232L)));
+        veterinarians.add(veterinaryRepository.save(new Veterinary("admin@tabbies.com", "admin", adminRole, "Administrador", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMPqRTUTBCSQUjVitzJEigfGchESQgRsk4zQ&s", 123456789, "Admin", 3206214141L)));
+        veterinarians.add(veterinaryRepository.save(new Veterinary("vet@tabbies.com", "vet", veterinaryRole, "Veterinario", "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg", 987654321, "Vet", 321623232L)));
+        
         generateUsers(users); // Generate users with random data
         generatePets(pets, users); // Generate pets with random data
         generateVets(veterinarians); // Generate veterinarians with random data

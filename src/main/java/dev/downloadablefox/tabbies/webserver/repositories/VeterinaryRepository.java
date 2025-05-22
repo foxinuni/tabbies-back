@@ -13,8 +13,5 @@ public interface VeterinaryRepository extends JpaRepository<Veterinary, Long> {
     Optional<Veterinary> findByEmail(String email); // Find a veterinary by email
     Optional<Veterinary> findByDocument(Integer document); // Find a veterinary by document
     List<Veterinary> findBySpeciality(String speciality);
-        
     Optional<Veterinary> findByNumber(Long number);    
-
-
 }

@@ -18,10 +18,10 @@ public class ProcedureServiceImpl implements ProcedureService{
     }
 
     @Override
-        public Collection<Procedure> getProceduresByPetId(Long petId) {
-            System.out.println(petId);
-            return procedureRepository.findByPetId(petId);
-        }
+    public Collection<Procedure> getProceduresByPetId(Long petId) {
+        System.out.println(petId);
+        return procedureRepository.findByPetId(petId);
+    }
 
     @Override
     public Collection<Procedure> getAllProcedures() {

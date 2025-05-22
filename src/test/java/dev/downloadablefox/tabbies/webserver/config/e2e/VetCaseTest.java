@@ -1,7 +1,6 @@
 package dev.downloadablefox.tabbies.webserver.config.e2e;
 
 import java.time.Duration;
-import java.time.LocalDate;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class VetCaseTest {
-
     private final String BASE_URL = "http://localhost:4200/";
 
     private WebDriver driver;
@@ -46,7 +44,6 @@ public class VetCaseTest {
         vetTest_VetCreatePet_Pet();
         vetTest_OwnerAssign_Pet();
     }
-
 
     private void vetTest_LoginTest_Login() {
         driver.get(BASE_URL + "/login");

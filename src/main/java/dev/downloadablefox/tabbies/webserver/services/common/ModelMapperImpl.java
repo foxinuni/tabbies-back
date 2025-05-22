@@ -16,10 +16,13 @@ import dev.downloadablefox.tabbies.webserver.dtos.VeterinarianView;
 import dev.downloadablefox.tabbies.webserver.entities.Medicine;
 import dev.downloadablefox.tabbies.webserver.entities.Pet;
 import dev.downloadablefox.tabbies.webserver.entities.Procedure;
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 import dev.downloadablefox.tabbies.webserver.entities.User;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.services.medicine.MedicineService;
 import dev.downloadablefox.tabbies.webserver.services.pets.PetService;
+import dev.downloadablefox.tabbies.webserver.services.roles.RoleService;
 import dev.downloadablefox.tabbies.webserver.services.user.UserService;
 import dev.downloadablefox.tabbies.webserver.services.veterinary.VeterinarianService;
 
@@ -35,11 +38,15 @@ public class ModelMapperImpl implements ModelMapper {
     private MedicineService medicineService;
 
     @Autowired
-    private VeterinarianService veterinarianService;    
+    private VeterinarianService veterinarianService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public User toUserEntity(UserUpsert dto) {
-        return new User(dto.getDocument(), dto.getName(), dto.getEmail(), dto.getPassword(), dto.getNumber());
+        final Role role = roleService.getRoleByType(RoleType.USER);
+        return new User(dto.getEmail(), dto.getPassword(), role, dto.getDocument(), dto.getName(), dto.getNumber());
     }
 
     @Override
@@ -59,13 +66,14 @@ public class ModelMapperImpl implements ModelMapper {
     }
 
     @Override
-    public Veterinary toVeterinaryEntity(VeterinarianUpsert veterinaryCreateDTO) {
-        return new Veterinary(veterinaryCreateDTO.getRole(), veterinaryCreateDTO.getSpeciality(), veterinaryCreateDTO.getPicture(), veterinaryCreateDTO.getDocument(), veterinaryCreateDTO.getName(), veterinaryCreateDTO.getEmail(), veterinaryCreateDTO.getNumber());
+    public Veterinary toVeterinaryEntity(VeterinarianUpsert dto) {
+        final Role role = roleService.getRoleByType(RoleType.VETERINARY);
+        return new Veterinary(dto.getEmail(), dto.getPassword(), role, dto.getSpeciality(), dto.getPicture(), dto.getDocument(), dto.getName(), dto.getNumber());
     }
 
     @Override
     public VeterinarianView toVeterinaryDTO(Veterinary veterinary) {
-        return new VeterinarianView(veterinary.getId(), veterinary.getName(), veterinary.getEmail(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getRole(), veterinary.getSpeciality(), veterinary.getPicture());
+        return new VeterinarianView(veterinary.getId(), veterinary.getEmail(), veterinary.getHash(), veterinary.getRole().getName(), veterinary.getName(), veterinary.getDocument(), veterinary.getNumber(), veterinary.getSpeciality(), veterinary.getPicture());
     }
 
     @Override
@@ -83,14 +91,12 @@ public class ModelMapperImpl implements ModelMapper {
         final Pet pet = petService.getPetById(procedureCreateDTO.getPetId());
         final Veterinary veterinary = veterinarianService.getVeterinarianById(procedureCreateDTO.getVeterinaryId());
         final Medicine medicine = medicineService.getMedicineById(procedureCreateDTO.getMedicineId());
-
         return new Procedure(procedureCreateDTO.getQuantity(), procedureCreateDTO.getNotes(), pet, medicine, veterinary);
     }
     
     @Override
     public ProcedureView toProcedureDTO(Procedure procedure) {
         final Medicine medicine = procedure.getMedicine();
-
         return new ProcedureView(procedure.getId(), procedure.getQuantity(), procedure.getNotes(), procedure.getPet().getId(), (medicine == null) ? null : medicine.getId(), procedure.getVeterinary().getId());
     }
 }

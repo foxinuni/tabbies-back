@@ -2,21 +2,23 @@ package dev.downloadablefox.tabbies.webserver.dtos;
 
 public class VeterinarianView {
     private Long id;
-    private String name;
     private String email;
+    private String password;
+    private String role;
+    private String name;
     private Integer document;
     private Long number;
-    private String role;
     private String speciality;
     private String picture;
 
-    public VeterinarianView(Long id, String name, String email, Integer document, Long number, String role, String speciality, String picture) {
+    public VeterinarianView(Long id, String email, String password, String role, String name, Integer document, Long number, String speciality, String picture) {
         this.id = id;
-        this.name = name;
         this.email = email;
+        this.password = password;
+        this.role = role;
+        this.name = name;
         this.document = document;
         this.number = number;
-        this.role = role;
         this.speciality = speciality;
         this.picture = picture;
     }
@@ -83,5 +85,9 @@ public class VeterinarianView {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

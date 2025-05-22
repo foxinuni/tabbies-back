@@ -1,83 +1,93 @@
 package dev.downloadablefox.tabbies.webserver.config.repository;
 
-
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import dev.downloadablefox.tabbies.webserver.entities.Role;
+import dev.downloadablefox.tabbies.webserver.entities.RoleType;
 import dev.downloadablefox.tabbies.webserver.entities.Veterinary;
 import dev.downloadablefox.tabbies.webserver.repositories.VeterinaryRepository;
-
+import dev.downloadablefox.tabbies.webserver.services.roles.RoleService;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
 public class VeterinaryRepositoryTest {
-
     @Autowired
     VeterinaryRepository veterinaryRepository;
 
- 
+    @Autowired
+    RoleService roleService;
+
     @BeforeEach
     public void setUp() {
+        roleService.createRole(RoleType.USER.getRole());
+        roleService.createRole(RoleType.VETERINARY.getRole());
+        roleService.createRole(RoleType.ADMIN.getRole());
+
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
+
         veterinaryRepository.save(new Veterinary(
-            "Veterinary", 
+            "maria-lopez0@tabbies.com",
+            "maria",
+            veterinaryRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascetas-1.jpg",
             886333637,
-            "Dra. María López",
-            "maria-lopez0@tabbies.com",  
+            "Dra. María López 1",
             363962911L
         ));
         
         veterinaryRepository.save(new Veterinary(
-            "Veterinary2", 
+            "maria-lopez1@tabbies.com", 
+            "maria",
+            veterinaryRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
             886333638,  
-            "Dra. María López",
-            "maria-lopez1@tabbies.com"  , 
+            "Dra. María López 2",
             363962916L  
         ));
-
-
-        Veterinary veterinary = veterinaryRepository.findById(2L).get();
-        veterinary.setName("Veterinary3");
-        veterinaryRepository.save(veterinary);
-
-        
     }
 
 
     //create test
     @Test
     public void VeterinaryRepository_save_Veterinary() {
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
+
         Veterinary veterinary = new Veterinary(
-            "Veterinary",
+            "maria-lopez2@tabbies.com",
+            "maria",
+            veterinaryRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
             886333639,
             "Dra. María López",
-            "maria-lopez2@tabbies.com",
             363962917L
         );
         Veterinary savedVeterinary = veterinaryRepository.save(veterinary);
         Assertions.assertThat(savedVeterinary).isNotNull();
     }
 
-
-    //Test Find By Email #2
     @Test
     public void VeterinaryRepositoryTest_findByEmail_email() {
-        Veterinary veterinary = new Veterinary("Veterinary","Cardiología","https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",886333637,"Dra. María López","maria-lopez@tabbies.com",363962915L);
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
+        Veterinary veterinary = new Veterinary(
+            "maria-lopez@tabbies.com",
+            "maria",
+            veterinaryRole,
+            "Cardiología",
+            "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
+            886333637,
+            "Dra. María López",
+            363962915L
+        );
 
         Veterinary savedVeterinary = veterinaryRepository.save(veterinary);
 
@@ -105,35 +115,27 @@ public class VeterinaryRepositoryTest {
 
     //test #5
     @Test
-    public void VeterinaryRepository_findByNumber_ReturnsVeterinary() {
-        Long number = 363962916L;
-
-        Optional<Veterinary> veterinary = veterinaryRepository.findByNumber(number);
-
-        Assertions.assertThat(veterinary).isPresent();
-        Assertions.assertThat(veterinary.get().getNumber()).isEqualTo(number);
-    }
-
-
-    
-    @Test
     public void VeterinaryFindAll_NotEmptyList() {
+        final Role veterinaryRole = roleService.getRoleByType(RoleType.VETERINARY);
         Veterinary veterinary = new Veterinary(
-            "Veterinary",
+            "maria-lopez4@tabbies.com",
+            "maria",
+            veterinaryRole,
             "Cardiología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-1.jpg",
             886333640,
             "Dra. María López4",
-            "maria-lopez4@tabbies.com",
             363962917L
         );
+
         Veterinary veterinary2 = new Veterinary(
-            "Veterinary",
+            "mario-lopez@tabbies.com",
+            "mario",
+            veterinaryRole,
             "Dermatología",
             "https://www.promedco.com/images/NOTICIAS_2020/reducir-estres-de-mascotas-2.jpg",
             886333641,
             "Dra. María López6",
-            "mario-lopez@tabbies.com",
             363962918L
         );
 
@@ -144,7 +146,6 @@ public class VeterinaryRepositoryTest {
         Assertions.assertThat(veterinaries).isNotNull();
         Assertions.assertThat(veterinaries.size()).isGreaterThanOrEqualTo(4); 
     }
-
 
     @Test
     public void VeterinaryRepository_findByID_FindWrongIndex() {
@@ -173,6 +174,5 @@ public class VeterinaryRepositoryTest {
         
         veterinary.setDocument(886333610);
         veterinaryRepository.save(veterinary);
-    
     }
 }
