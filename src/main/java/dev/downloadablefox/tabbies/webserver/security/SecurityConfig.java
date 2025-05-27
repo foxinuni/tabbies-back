@@ -31,6 +31,7 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(options -> options.disable()))
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/h2/**").permitAll()
+                .requestMatchers("/contact/**").permitAll()
 
                 // Auth endpoints
                 .requestMatchers("/auth/login").permitAll()
