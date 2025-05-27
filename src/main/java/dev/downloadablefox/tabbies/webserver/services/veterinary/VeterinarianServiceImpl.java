@@ -43,11 +43,11 @@ public class VeterinarianServiceImpl implements VeterinarianService {
 
     @Override
     public void updateVeterinarian(Long id, Veterinary veterinarian) {
-        if (!veterinaryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Veterinarian not found with id: " + veterinarian.getId());
-        }
+        Veterinary existingVeterinarian = veterinaryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Veterinarian not found with id: " + id));
 
         veterinarian.setId(id);
+        veterinarian.setHash(existingVeterinarian.getHash()); // Preserve the hash if needed
         veterinaryRepository.save(veterinarian);
     }
 

@@ -28,12 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public void updateUser(Long id, User user) {
-        User existingUser = userRepository.findById(id).get();
-        if (existingUser == null) {
-            throw new IllegalArgumentException("User not found with id: " + id);
-        }
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
         
         user.setId(id);
+        user.setHash(existingUser.getHash()); // Preserve the hash if needed
         user.setPets(existingUser.getPets());
 
         userRepository.save(user);
